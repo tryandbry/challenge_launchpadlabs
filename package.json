@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/tryandbry/challenge_launchpadlabs#readme",
   "dependencies": {
+    "axios": "^0.16.2",
     "babel": "^6.23.0",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
