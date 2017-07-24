@@ -28443,24 +28443,25 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var headers = {
-  'Accept': 'application/vnd.github.v3+json',
-  'If-None-Match': 'W/"c4fae33f201d3434c71384d2e5c135f2"'
-};
-
-var git = _axios2.default.create(headers);
-
 var URL = 'https://api.github.com/repos/jmregan0/Smart_Docs/stargazers';
 
-exports.default = function (eTag) {
-  /*
-  console.log('watcher props:',eTag);
-  if(eTag != '' && headers['If-None-Match'] != eTag){
-    headers['If-None-Match']=`${eTag}`;
-    console.log('watcher set new header: ',headers);
-    git = axios.create(headers);
+var config = {
+  headers: {
+    'Accept': 'application/vnd.github.v3+json'
+    //'If-None-Match': '"e7b500dfffd8553a54163a90acb1d9fd"',
+    //'If-None-Match': '"ced4b2a110e42041bddff6b9ce6a7355"',
   }
-  */
+};
+
+var git = _axios2.default.create(config);
+
+exports.default = function (eTag) {
+  console.log('watcher props:', eTag);
+  if (eTag != '' && config.headers['If-None-Match'] != eTag) {
+    config.headers['If-None-Match'] = '' + eTag;
+    console.log('watcher set new header: ', config);
+    git = _axios2.default.create(config);
+  }
 
   return git.get(URL);
 };
