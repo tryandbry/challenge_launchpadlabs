@@ -27689,6 +27689,37 @@ var repoContainer = function (_React$Component) {
               )
             )
           )
+        ),
+        _react2.default.createElement(
+          'ul',
+          { className: 'nav nav-tabs' },
+          _react2.default.createElement(
+            'li',
+            { role: 'presentation' },
+            _react2.default.createElement(
+              'a',
+              null,
+              'Watchers'
+            )
+          ),
+          _react2.default.createElement(
+            'li',
+            { role: 'presentation' },
+            _react2.default.createElement(
+              'a',
+              null,
+              'Stars'
+            )
+          ),
+          _react2.default.createElement(
+            'li',
+            { role: 'presentation' },
+            _react2.default.createElement(
+              'a',
+              null,
+              'Forks'
+            )
+          )
         )
       );
     }
@@ -27698,6 +27729,51 @@ var repoContainer = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = repoContainer;
+
+
+var User = function User(props) {
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'table',
+      { className: 'table' },
+      _react2.default.createElement(
+        'tr',
+        null,
+        _react2.default.createElement(
+          'td',
+          { rowSpan: 2 },
+          _react2.default.createElement('img', { className: 'thumbnail', src: 'https://avatars2.githubusercontent.com/u/25852756?v=4' })
+        ),
+        _react2.default.createElement(
+          'th',
+          null,
+          'tryandbry'
+        )
+      ),
+      _react2.default.createElement(
+        'tr',
+        null,
+        _react2.default.createElement(
+          'th',
+          null,
+          'URL:'
+        ),
+        _react2.default.createElement(
+          'td',
+          null,
+          _react2.default.createElement(
+            'a',
+            { href: 'https://api.github.com/users/tryandbry' },
+            'https://api.github.com/users/tryandbry'
+          )
+        )
+      )
+    )
+  );
+};
 
 /***/ })
 /******/ ]);

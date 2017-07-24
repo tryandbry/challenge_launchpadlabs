@@ -48,7 +48,38 @@ export default class repoContainer extends React.Component {
             </tr>
           </tbody>
         </table>
+        <ul className="nav nav-tabs">
+          <li role="presentation"><a>Watchers</a></li>
+          <li role="presentation"><a>Stars</a></li>
+          <li role="presentation"><a>Forks</a></li>
+        </ul>
       </div>
     );
   }
 }
+
+const User = (props) => {
+
+  return (
+    <div>
+      <table className="table">
+        <tr>
+          <td rowSpan={2}><img className="thumbnail" src="https://avatars2.githubusercontent.com/u/25852756?v=4"></img></td>
+          <th>tryandbry</th>
+        </tr>
+        <tr>
+          <th>URL:</th>
+          <td><a href="https://api.github.com/users/tryandbry">https://api.github.com/users/tryandbry</a></td>
+        </tr>
+      </table>
+    </div>
+  );
+}
+
+
+
+
+
+
+
+
