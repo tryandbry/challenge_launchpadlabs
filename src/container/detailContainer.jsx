@@ -9,6 +9,7 @@ export default class detailContainer extends React.Component {
       eTag: '',
       lastUpdated: '',
       filterUser: '',
+      notification: '',
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -24,10 +25,23 @@ export default class detailContainer extends React.Component {
         eTag: res.headers.etag,
         lastUpdated: Date(),
         searchUser: '',
+        notification: 'new watchers!',
       },
         ()=>console.log('new state:',this.state));
     })
-    .catch(error => console.error('handleClick error:',error));
+    .catch(error => {
+      /*
+      console.error('handleClick error:',error)
+      console.log(typeof error,Object.keys(error));
+      console.log(error.response,Object.keys(error.response));
+      */
+      if(error.response.status === 304){
+        this.setState({notification: Date() + ": no new updates"});
+      }
+      else {
+        console.error('handleClick error:',error)
+      }
+    });
   }
 
   searchUser(event){
@@ -45,10 +59,18 @@ export default class detailContainer extends React.Component {
         <table className="table">
           <thead>
             <tr>
-              <th>Watchers</th>
+              <th>Stats</th>
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <th>Last updated:</th>
+              <td>{this.state.lastUpdated}</td>
+            </tr>
+            <tr>
+              <th>Notification: </th>
+              <td>{this.state.notification}</td>
+            </tr>
           </tbody>
         </table>
         <h3>Watchers</h3>

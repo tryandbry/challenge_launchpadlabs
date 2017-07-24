@@ -28274,7 +28274,8 @@ var detailContainer = function (_React$Component) {
       reactWatchers: [],
       eTag: '',
       lastUpdated: '',
-      filterUser: ''
+      filterUser: '',
+      notification: ''
     };
 
     _this.handleClick = _this.handleClick.bind(_this);
@@ -28298,7 +28299,16 @@ var detailContainer = function (_React$Component) {
           return console.log('new state:', _this2.state);
         });
       }).catch(function (error) {
-        return console.error('handleClick error:', error);
+        /*
+        console.error('handleClick error:',error)
+        console.log(typeof error,Object.keys(error));
+        console.log(error.response,Object.keys(error.response));
+        */
+        if (error.response.status === 304) {
+          _this2.setState({ notification: Date() + ": no new updates" });
+        } else {
+          console.error('handleClick error:', error);
+        }
       });
     }
   }, {
@@ -28331,11 +28341,42 @@ var detailContainer = function (_React$Component) {
               _react2.default.createElement(
                 'th',
                 null,
-                'Watchers'
+                'Stats'
               )
             )
           ),
-          _react2.default.createElement('tbody', null)
+          _react2.default.createElement(
+            'tbody',
+            null,
+            _react2.default.createElement(
+              'tr',
+              null,
+              _react2.default.createElement(
+                'th',
+                null,
+                'Last updated:'
+              ),
+              _react2.default.createElement(
+                'td',
+                null,
+                this.state.lastUpdated
+              )
+            ),
+            _react2.default.createElement(
+              'tr',
+              null,
+              _react2.default.createElement(
+                'th',
+                null,
+                'Notification: '
+              ),
+              _react2.default.createElement(
+                'td',
+                null,
+                this.state.notification
+              )
+            )
+          )
         ),
         _react2.default.createElement(
           'h3',
