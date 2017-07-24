@@ -6,15 +6,22 @@ export default class repoContainer extends React.Component {
     super();
     this.state = {
       reactWatchers: [],
+      eTag: '',
+      lastUpdated: '',
     };
 
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(){
-    watcher()
+    watcher(this.state.eTag)
     .then(res => {
-      this.setState({reactWatchers: res.data},
+      console.log('gitHub API response:',res);
+      this.setState({
+        reactWatchers: res.data,
+        eTag: res.headers.etag,
+        lastUpdated: Date(),
+      },
         ()=>console.log('new state:',this.state));
     })
     .catch(error => console.error('handleClick error:',error));
@@ -37,7 +44,8 @@ export default class repoContainer extends React.Component {
         <h3>Watchers</h3>
         {this.state.reactWatchers.map(user =>
           <User
-            key={user.login}
+            key={user.id}
+            id={user.id}
             login={user.login}
             thumbnail={user.avatar_url}
             url={user.html_url}
@@ -50,9 +58,10 @@ export default class repoContainer extends React.Component {
 }
 
 const User = (props) => {
-  console.log('props:',props);
+  //console.log('props:',props);
 
   const login = props.login;
+  const id = props.id;
   const thumbnail = props.thumbnail;
   const url = props.url;
 
@@ -61,10 +70,15 @@ const User = (props) => {
       <table className="table">
         <tbody>
           <tr>
-            <td rowSpan={2}>
+            <td rowSpan={3}>
               <img className="thumbnail" src={thumbnail}></img>
             </td>
-            <th>{login}</th>
+            <th>Name:</th>
+            <td>{login}</td>
+          </tr>
+          <tr>
+            <th>ID:</th>
+            <td>{id}</td>
           </tr>
           <tr>
             <th>URL:</th>

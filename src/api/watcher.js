@@ -1,21 +1,38 @@
-import axios from 'axios';
+//import axios from 'axios';
+/*
+export default (eTag) => {
+  console.log('watcher props:',eTag);
+  if(eTag != '' && headers['If-None-Match'] != eTag){
+    headers['If-None-Match']=`${eTag}`;
+    console.log('watcher set new header: ',headers);
+    git = axios.create(headers);
+  }
+
+  return git.get(URL);
+}
+*/
+const axios = require('axios');
+
+/* URLs
+const URL = 'https://api.github.com/repos/facebook/react/subscribers';
+*/
+//const URL = 'https://api.github.com/repos/facebook/react/subscribers';
+//const URL = 'https://api.github.com/repos/facebook/react/commits';
+const URL = 'https://api.github.com/repos/jmregan0/Smart_Docs/stargazers';
+//const URL = 'https://api.github.com/repos/facebook/react';
+//const URL = 'https://api.github.com/users/tryandbry';
+//const URL = 'https://api.github.com/orgs/octokit/repos';
 
 const git = axios.create({
-  /*
   headers: {
     'Accept': 'application/vnd.github.v3+json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-GitHub-OTP, X-Requested-With',
-    'Access-Control-Allow-Methods': 'GET',
-    'Access-Control-Expose-Headers': 'ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval',
-    'Access-Control-Max-Age': 86400,
-  }
-  */
-  headers: {
-    'Accept': 'application/vnd.github.v3+json',
+    //'If-None-Match': '"e7b500dfffd8553a54163a90acb1d9fd"',
+    'If-None-Match': '"ced4b2a110e42041bddff6b9ce6a7355"',
   }
 });
 
-const URL = 'https://api.github.com/repos/jmregan0/Smart_Docs/stargazers';
+git.get(URL)
+//.then(res => res.data)
+.then(res => console.log(res))
+.catch(error => console.error('error encountered: ',error));
 
-export default () => git.get(URL)

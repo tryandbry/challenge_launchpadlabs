@@ -28271,7 +28271,9 @@ var repoContainer = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (repoContainer.__proto__ || Object.getPrototypeOf(repoContainer)).call(this));
 
     _this.state = {
-      reactWatchers: []
+      reactWatchers: [],
+      eTag: '',
+      lastUpdated: ''
     };
 
     _this.handleClick = _this.handleClick.bind(_this);
@@ -28283,8 +28285,13 @@ var repoContainer = function (_React$Component) {
     value: function handleClick() {
       var _this2 = this;
 
-      (0, _watcher2.default)().then(function (res) {
-        _this2.setState({ reactWatchers: res.data }, function () {
+      (0, _watcher2.default)(this.state.eTag).then(function (res) {
+        console.log('gitHub API response:', res);
+        _this2.setState({
+          reactWatchers: res.data,
+          eTag: res.headers.etag,
+          lastUpdated: Date()
+        }, function () {
           return console.log('new state:', _this2.state);
         });
       }).catch(function (error) {
@@ -28324,7 +28331,8 @@ var repoContainer = function (_React$Component) {
         ),
         this.state.reactWatchers.map(function (user) {
           return _react2.default.createElement(User, {
-            key: user.login,
+            key: user.id,
+            id: user.id,
             login: user.login,
             thumbnail: user.avatar_url,
             url: user.html_url
@@ -28346,9 +28354,10 @@ exports.default = repoContainer;
 
 
 var User = function User(props) {
-  console.log('props:', props);
+  //console.log('props:',props);
 
   var login = props.login;
+  var id = props.id;
   var thumbnail = props.thumbnail;
   var url = props.url;
 
@@ -28366,13 +28375,32 @@ var User = function User(props) {
           null,
           _react2.default.createElement(
             'td',
-            { rowSpan: 2 },
+            { rowSpan: 3 },
             _react2.default.createElement('img', { className: 'thumbnail', src: thumbnail })
           ),
           _react2.default.createElement(
             'th',
             null,
+            'Name:'
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
             login
+          )
+        ),
+        _react2.default.createElement(
+          'tr',
+          null,
+          _react2.default.createElement(
+            'th',
+            null,
+            'ID:'
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            id
           )
         ),
         _react2.default.createElement(
@@ -28415,25 +28443,25 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var git = _axios2.default.create({
-  /*
-  headers: {
-    'Accept': 'application/vnd.github.v3+json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-GitHub-OTP, X-Requested-With',
-    'Access-Control-Allow-Methods': 'GET',
-    'Access-Control-Expose-Headers': 'ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval',
-    'Access-Control-Max-Age': 86400,
-  }
-  */
-  headers: {
-    'Accept': 'application/vnd.github.v3+json'
-  }
-});
+var headers = {
+  'Accept': 'application/vnd.github.v3+json',
+  'If-None-Match': 'W/"c4fae33f201d3434c71384d2e5c135f2"'
+};
+
+var git = _axios2.default.create(headers);
 
 var URL = 'https://api.github.com/repos/jmregan0/Smart_Docs/stargazers';
 
-exports.default = function () {
+exports.default = function (eTag) {
+  /*
+  console.log('watcher props:',eTag);
+  if(eTag != '' && headers['If-None-Match'] != eTag){
+    headers['If-None-Match']=`${eTag}`;
+    console.log('watcher set new header: ',headers);
+    git = axios.create(headers);
+  }
+  */
+
   return git.get(URL);
 };
 
