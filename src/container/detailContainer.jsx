@@ -1,6 +1,37 @@
 import React from 'react';
 import watcher from '../api/watcher';
 
+const sortUsers = (arr,mode) => {
+  let result = arr.slice();
+
+  const sortAZ = (a,b) => {
+    a = a.login.toLowerCase();
+    b = b.login.toLowerCase();
+
+    if(a > b) return 1;
+    if(a < b) return -1;
+    return 0;
+  }
+
+  const sortZA = (a,b) => {
+    a = a.login.toLowerCase();
+    b = b.login.toLowerCase();
+
+    if(b > a) return 1;
+    if(b < a) return -1;
+    return 0;
+  }
+
+  switch(mode){
+    case '':
+      return result;
+    case 'AZ':
+      return result.sort(sortAZ);
+    case 'ZA':
+      return result.sort(sortZA);
+  }
+}
+
 export default class detailContainer extends React.Component {
   constructor(){
     super();
@@ -10,10 +41,12 @@ export default class detailContainer extends React.Component {
       lastUpdated: '',
       filterUser: '',
       notification: '',
+      sortMode: '',
     };
 
     this.handleClick = this.handleClick.bind(this);
     this.searchUser = this.searchUser.bind(this);
+    this.toggleSort = this.toggleSort.bind(this);
   }
 
   handleClick(){
@@ -44,15 +77,27 @@ export default class detailContainer extends React.Component {
     });
   }
 
+  toggleSort(event){
+    event.preventDefault();
+    console.log('target: ',event.target.name);
+    if(this.state.sortMode === event.target.name){
+      this.setState({sortMode: ''});
+    }
+    else {
+      this.setState({sortMode: event.target.name});
+    }
+  }
+
   searchUser(event){
     event.preventDefault();
     this.setState({searchUser: event.target.value});
   }
 
   render(){
-    const filteredUsers = this.state.reactWatchers.filter(user => 
+    let filteredUsers = this.state.reactWatchers.filter(user => 
       user.login.match(this.state.searchUser)
     );
+    let sortedUsers = sortUsers(filteredUsers,this.state.sortMode);
 
     return (
       <div className="table-responsive">
@@ -74,8 +119,12 @@ export default class detailContainer extends React.Component {
           </tbody>
         </table>
         <h3>Watchers</h3>
-        <FilterUser searchUser={this.searchUser} />
-        {filteredUsers.map(user =>
+        <FilterUser
+          searchUser={this.searchUser}
+          toggleSort={this.toggleSort}
+          sortMode={this.state.sortMode}
+        />
+        {sortedUsers.map(user =>
           <User
             key={user.id}
             id={user.id}
@@ -92,15 +141,34 @@ export default class detailContainer extends React.Component {
 
 const FilterUser = (props) => {
   const searchUser = props.searchUser;
+  const toggleSort = props.toggleSort;
+  const sortMode = props.sortMode;
 
   return (
     <div>
       <form className="form-group">
         <input
           className="form-control"
+          type="text"
           name="users"
           onChange={searchUser}
           placeholder="search user"
+        />
+        <input
+          className={sortMode === 'AZ' ? "btn btn-default active" :
+            "btn btn-default"}
+          type="button"
+          name="AZ"
+          value="A-Z"
+          onClick={toggleSort}
+        />
+        <input
+          className={sortMode === 'ZA' ? "btn btn-default active" :
+            "btn btn-default"}
+          type="button"
+          name="ZA"
+          value="Z-A"
+          onClick={toggleSort}
         />
       </form>
     </div>

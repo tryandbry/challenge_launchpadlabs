@@ -28262,6 +28262,37 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var sortUsers = function sortUsers(arr, mode) {
+  var result = arr.slice();
+
+  var sortAZ = function sortAZ(a, b) {
+    a = a.login.toLowerCase();
+    b = b.login.toLowerCase();
+
+    if (a > b) return 1;
+    if (a < b) return -1;
+    return 0;
+  };
+
+  var sortZA = function sortZA(a, b) {
+    a = a.login.toLowerCase();
+    b = b.login.toLowerCase();
+
+    if (b > a) return 1;
+    if (b < a) return -1;
+    return 0;
+  };
+
+  switch (mode) {
+    case '':
+      return result;
+    case 'AZ':
+      return result.sort(sortAZ);
+    case 'ZA':
+      return result.sort(sortZA);
+  }
+};
+
 var detailContainer = function (_React$Component) {
   _inherits(detailContainer, _React$Component);
 
@@ -28275,11 +28306,13 @@ var detailContainer = function (_React$Component) {
       eTag: '',
       lastUpdated: '',
       filterUser: '',
-      notification: ''
+      notification: '',
+      sortMode: ''
     };
 
     _this.handleClick = _this.handleClick.bind(_this);
     _this.searchUser = _this.searchUser.bind(_this);
+    _this.toggleSort = _this.toggleSort.bind(_this);
     return _this;
   }
 
@@ -28294,7 +28327,8 @@ var detailContainer = function (_React$Component) {
           reactWatchers: res.data,
           eTag: res.headers.etag,
           lastUpdated: Date(),
-          searchUser: ''
+          searchUser: '',
+          notification: 'new watchers!'
         }, function () {
           return console.log('new state:', _this2.state);
         });
@@ -28312,6 +28346,17 @@ var detailContainer = function (_React$Component) {
       });
     }
   }, {
+    key: 'toggleSort',
+    value: function toggleSort(event) {
+      event.preventDefault();
+      console.log('target: ', event.target.name);
+      if (this.state.sortMode === event.target.name) {
+        this.setState({ sortMode: '' });
+      } else {
+        this.setState({ sortMode: event.target.name });
+      }
+    }
+  }, {
     key: 'searchUser',
     value: function searchUser(event) {
       event.preventDefault();
@@ -28325,6 +28370,7 @@ var detailContainer = function (_React$Component) {
       var filteredUsers = this.state.reactWatchers.filter(function (user) {
         return user.login.match(_this3.state.searchUser);
       });
+      var sortedUsers = sortUsers(filteredUsers, this.state.sortMode);
 
       return _react2.default.createElement(
         'div',
@@ -28383,8 +28429,12 @@ var detailContainer = function (_React$Component) {
           null,
           'Watchers'
         ),
-        _react2.default.createElement(FilterUser, { searchUser: this.searchUser }),
-        filteredUsers.map(function (user) {
+        _react2.default.createElement(FilterUser, {
+          searchUser: this.searchUser,
+          toggleSort: this.toggleSort,
+          sortMode: this.state.sortMode
+        }),
+        sortedUsers.map(function (user) {
           return _react2.default.createElement(User, {
             key: user.id,
             id: user.id,
@@ -28410,6 +28460,8 @@ exports.default = detailContainer;
 
 var FilterUser = function FilterUser(props) {
   var searchUser = props.searchUser;
+  var toggleSort = props.toggleSort;
+  var sortMode = props.sortMode;
 
   return _react2.default.createElement(
     'div',
@@ -28419,9 +28471,24 @@ var FilterUser = function FilterUser(props) {
       { className: 'form-group' },
       _react2.default.createElement('input', {
         className: 'form-control',
+        type: 'text',
         name: 'users',
         onChange: searchUser,
         placeholder: 'search user'
+      }),
+      _react2.default.createElement('input', {
+        className: sortMode === 'AZ' ? "btn btn-default active" : "btn btn-default",
+        type: 'button',
+        name: 'AZ',
+        value: 'A-Z',
+        onClick: toggleSort
+      }),
+      _react2.default.createElement('input', {
+        className: sortMode === 'ZA' ? "btn btn-default active" : "btn btn-default",
+        type: 'button',
+        name: 'ZA',
+        value: 'Z-A',
+        onClick: toggleSort
       })
     )
   );
