@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const URL = 'https://api.github.com/repos/jmregan0/Smart_Docs/stargazers';
+//const URL = 'https://api.github.com/repos/jmregan0/Smart_Docs/stargazers';
+const URL = 'https://api.github.com/repos/facebook/react/stargazers';
 
 let config = {
   headers: {

@@ -1,16 +1,18 @@
 import React from 'react';
 import watcher from '../api/watcher';
 
-export default class repoContainer extends React.Component {
+export default class detailContainer extends React.Component {
   constructor(){
     super();
     this.state = {
       reactWatchers: [],
       eTag: '',
       lastUpdated: '',
+      filterUser: '',
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.searchUser = this.searchUser.bind(this);
   }
 
   handleClick(){
@@ -21,14 +23,22 @@ export default class repoContainer extends React.Component {
         reactWatchers: res.data,
         eTag: res.headers.etag,
         lastUpdated: Date(),
+        searchUser: '',
       },
         ()=>console.log('new state:',this.state));
     })
     .catch(error => console.error('handleClick error:',error));
   }
 
+  searchUser(event){
+    event.preventDefault();
+    this.setState({searchUser: event.target.value});
+  }
+
   render(){
-    console.log('repoContainer is rendering');
+    const filteredUsers = this.state.reactWatchers.filter(user => 
+      user.login.match(this.state.searchUser)
+    );
 
     return (
       <div className="table-responsive">
@@ -42,7 +52,8 @@ export default class repoContainer extends React.Component {
           </tbody>
         </table>
         <h3>Watchers</h3>
-        {this.state.reactWatchers.map(user =>
+        <FilterUser searchUser={this.searchUser} />
+        {filteredUsers.map(user =>
           <User
             key={user.id}
             id={user.id}
@@ -57,9 +68,24 @@ export default class repoContainer extends React.Component {
   }
 }
 
-const User = (props) => {
-  //console.log('props:',props);
+const FilterUser = (props) => {
+  const searchUser = props.searchUser;
 
+  return (
+    <div>
+      <form className="form-group">
+        <input
+          className="form-control"
+          name="users"
+          onChange={searchUser}
+          placeholder="search user"
+        />
+      </form>
+    </div>
+  );
+}
+
+const User = (props) => {
   const login = props.login;
   const id = props.id;
   const thumbnail = props.thumbnail;

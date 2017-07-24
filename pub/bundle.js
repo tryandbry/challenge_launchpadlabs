@@ -28262,25 +28262,27 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var repoContainer = function (_React$Component) {
-  _inherits(repoContainer, _React$Component);
+var detailContainer = function (_React$Component) {
+  _inherits(detailContainer, _React$Component);
 
-  function repoContainer() {
-    _classCallCheck(this, repoContainer);
+  function detailContainer() {
+    _classCallCheck(this, detailContainer);
 
-    var _this = _possibleConstructorReturn(this, (repoContainer.__proto__ || Object.getPrototypeOf(repoContainer)).call(this));
+    var _this = _possibleConstructorReturn(this, (detailContainer.__proto__ || Object.getPrototypeOf(detailContainer)).call(this));
 
     _this.state = {
       reactWatchers: [],
       eTag: '',
-      lastUpdated: ''
+      lastUpdated: '',
+      filterUser: ''
     };
 
     _this.handleClick = _this.handleClick.bind(_this);
+    _this.searchUser = _this.searchUser.bind(_this);
     return _this;
   }
 
-  _createClass(repoContainer, [{
+  _createClass(detailContainer, [{
     key: 'handleClick',
     value: function handleClick() {
       var _this2 = this;
@@ -28290,7 +28292,8 @@ var repoContainer = function (_React$Component) {
         _this2.setState({
           reactWatchers: res.data,
           eTag: res.headers.etag,
-          lastUpdated: Date()
+          lastUpdated: Date(),
+          searchUser: ''
         }, function () {
           return console.log('new state:', _this2.state);
         });
@@ -28299,9 +28302,19 @@ var repoContainer = function (_React$Component) {
       });
     }
   }, {
+    key: 'searchUser',
+    value: function searchUser(event) {
+      event.preventDefault();
+      this.setState({ searchUser: event.target.value });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      console.log('repoContainer is rendering');
+      var _this3 = this;
+
+      var filteredUsers = this.state.reactWatchers.filter(function (user) {
+        return user.login.match(_this3.state.searchUser);
+      });
 
       return _react2.default.createElement(
         'div',
@@ -28329,7 +28342,8 @@ var repoContainer = function (_React$Component) {
           null,
           'Watchers'
         ),
-        this.state.reactWatchers.map(function (user) {
+        _react2.default.createElement(FilterUser, { searchUser: this.searchUser }),
+        filteredUsers.map(function (user) {
           return _react2.default.createElement(User, {
             key: user.id,
             id: user.id,
@@ -28347,15 +28361,32 @@ var repoContainer = function (_React$Component) {
     }
   }]);
 
-  return repoContainer;
+  return detailContainer;
 }(_react2.default.Component);
 
-exports.default = repoContainer;
+exports.default = detailContainer;
 
+
+var FilterUser = function FilterUser(props) {
+  var searchUser = props.searchUser;
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'form',
+      { className: 'form-group' },
+      _react2.default.createElement('input', {
+        className: 'form-control',
+        name: 'users',
+        onChange: searchUser,
+        placeholder: 'search user'
+      })
+    )
+  );
+};
 
 var User = function User(props) {
-  //console.log('props:',props);
-
   var login = props.login;
   var id = props.id;
   var thumbnail = props.thumbnail;
@@ -28443,12 +28474,12 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var URL = 'https://api.github.com/repos/jmregan0/Smart_Docs/stargazers';
+//const URL = 'https://api.github.com/repos/jmregan0/Smart_Docs/stargazers';
+var URL = 'https://api.github.com/repos/facebook/react/stargazers';
 
 var config = {
   headers: {
     'Accept': 'application/vnd.github.v3+json'
-    //'If-None-Match': '"e7b500dfffd8553a54163a90acb1d9fd"',
     //'If-None-Match': '"ced4b2a110e42041bddff6b9ce6a7355"',
   }
 };
@@ -28456,10 +28487,10 @@ var config = {
 var git = _axios2.default.create(config);
 
 exports.default = function (eTag) {
-  console.log('watcher props:', eTag);
+  //console.log('watcher props:',eTag);
   if (eTag != '' && config.headers['If-None-Match'] != eTag) {
     config.headers['If-None-Match'] = '' + eTag;
-    console.log('watcher set new header: ', config);
+    //console.log('watcher set new header: ',config);
     git = _axios2.default.create(config);
   }
 
