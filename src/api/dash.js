@@ -41,7 +41,7 @@ const updateStats = (component,apiCall,path) => {
   .catch(error => {
     if(error.response.status === 304){
       component.setState({
-        notification: path.toUpperCase() + ': ' + Date() + ": no new updates"
+        [path+'Msg']: path.toUpperCase() + ': ' + Date() + ": no new updates"
       });
     }
     else {

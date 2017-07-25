@@ -29524,8 +29524,22 @@ var detailContainer = function (_React$Component) {
       react: {
         eTag: ''
       },
-      notification: ''
+      reactMsg: '',
+      angular: {
+        eTag: ''
+      },
+      angularMsg: '',
+      ember: {
+        eTag: ''
+      },
+      emberMsg: '',
+      vue: {
+        eTag: ''
+      },
+      vueMsg: ''
     };
+
+    _this.refreshStats = _this.refreshStats.bind(_this);
     return _this;
   }
 
@@ -29535,43 +29549,74 @@ var detailContainer = function (_React$Component) {
       var reactAPI = (0, _dash2.default)('facebook', 'react');
       (0, _dash.updateStats)(this, reactAPI, 'react');
       this.updateReact = _dash.updateStats.bind(null, this, reactAPI, 'react');
-      this.unsetTimer = setInterval(this.updateReact, 5000);
+      //this.unsetTimerReact = setInterval(this.updateReact,5000);
+
+      var angularAPI = (0, _dash2.default)('angular', 'angular.js');
+      (0, _dash.updateStats)(this, angularAPI, 'angular');
+      this.updateAngular = _dash.updateStats.bind(null, this, angularAPI, 'angular');
+      //this.unsetTimerAngular = setInterval(this.updateAngular,5000);
+
+      var emberAPI = (0, _dash2.default)('emberjs', 'ember.js');
+      (0, _dash.updateStats)(this, emberAPI, 'ember');
+      this.updateEmber = _dash.updateStats.bind(null, this, emberAPI, 'ember');
+      //this.unsetTimerEmber = setInterval(this.updateEmber,5000);
+
+      var vueAPI = (0, _dash2.default)('vuejs', 'vue');
+      (0, _dash.updateStats)(this, vueAPI, 'vue');
+      this.updateVue = _dash.updateStats.bind(null, this, vueAPI, 'vue');
+      //this.unsetTimerVue = setInterval(this.updateVue,5000);
+    }
+  }, {
+    key: 'refreshStats',
+    value: function refreshStats() {
+      this.updateReact();
+      this.updateAngular();
+      this.updateEmber();
+      this.updateVue();
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      clearInterval(this.unsetTimer);
+      /*
+      clearInterval(this.unsetTimerReact);
+      clearInterval(this.unsetTimerAngular);
+      clearInterval(this.unsetTimerEmber);
+      clearInterval(this.unsetTimerVue);
+      */
     }
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
+      var tables = Object.keys(this.state).filter(function (n) {
+        return !n.match('Msg');
+      });
+
       return _react2.default.createElement(
         'div',
         { className: 'container' },
         _react2.default.createElement(
           'div',
           { className: 'row' },
+          tables.map(function (name) {
+            return _react2.default.createElement(
+              'div',
+              { className: 'col-lg-3 col-md-3' },
+              _react2.default.createElement(RepoTable, {
+                title: name,
+                msg: _this2.state[name + 'Msg'],
+                stars: _this2.state[name].stars,
+                watchers: _this2.state[name].watchers,
+                forks: _this2.state[name].forks,
+                issues: _this2.state[name].issues
+              })
+            );
+          }),
           _react2.default.createElement(
-            'div',
-            { className: 'col-lg-3 col-md-3' },
-            _react2.default.createElement(
-              'h3',
-              null,
-              'Notification: ',
-              this.state.notification
-            ),
-            _react2.default.createElement(RepoTable, {
-              title: 'react',
-              stars: this.state.react.stars,
-              watchers: this.state.react.watchers,
-              forks: this.state.react.forks,
-              issues: this.state.react.issues
-            }),
-            _react2.default.createElement(
-              'button',
-              { onClick: this.updateReact },
-              'update'
-            )
+            'button',
+            { onClick: this.refreshStats },
+            'update'
           )
         )
       );
@@ -29587,6 +29632,7 @@ exports.default = detailContainer;
 var RepoTable = function RepoTable(props) {
 
   var title = props.title;
+  var msg = props.msg;
   var stars = props.stars;
   var watchers = props.watchers;
   var forks = props.forks;
@@ -29595,6 +29641,12 @@ var RepoTable = function RepoTable(props) {
   return _react2.default.createElement(
     'div',
     { className: 'table-responsive' },
+    _react2.default.createElement(
+      'h3',
+      null,
+      'Notification: ',
+      msg
+    ),
     _react2.default.createElement(
       'table',
       { className: 'table' },
@@ -29732,9 +29784,7 @@ var updateStats = function updateStats(component, apiCall, path) {
     });
   }).catch(function (error) {
     if (error.response.status === 304) {
-      component.setState({
-        notification: path.toUpperCase() + ': ' + Date() + ": no new updates"
-      });
+      component.setState(_defineProperty({}, path + 'Msg', path.toUpperCase() + ': ' + Date() + ": no new updates"));
     } else {
       console.error('updateStats error:', error);
     }

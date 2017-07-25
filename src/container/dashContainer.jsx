@@ -9,36 +9,81 @@ export default class detailContainer extends React.Component {
       react: {
         eTag: '',
       },
-      notification: '',
+      reactMsg: '',
+      angular: {
+        eTag: '',
+      },
+      angularMsg: '',
+      ember: {
+        eTag: '',
+      },
+      emberMsg: '',
+      vue: {
+        eTag: '',
+      },
+      vueMsg: '',
     };
+
+    this.refreshStats = this.refreshStats.bind(this);
   }
 
   componentDidMount(){
     let reactAPI = dash('facebook','react');
     updateStats(this,reactAPI,'react');
     this.updateReact = updateStats.bind(null,this,reactAPI,'react');
-    this.unsetTimer = setInterval(this.updateReact,5000);
+    //this.unsetTimerReact = setInterval(this.updateReact,5000);
+
+    let angularAPI = dash('angular','angular.js');
+    updateStats(this,angularAPI,'angular');
+    this.updateAngular = updateStats.bind(null,this,angularAPI,'angular');
+    //this.unsetTimerAngular = setInterval(this.updateAngular,5000);
+
+    let emberAPI = dash('emberjs','ember.js');
+    updateStats(this,emberAPI,'ember');
+    this.updateEmber = updateStats.bind(null,this,emberAPI,'ember');
+    //this.unsetTimerEmber = setInterval(this.updateEmber,5000);
+
+    let vueAPI = dash('vuejs','vue');
+    updateStats(this,vueAPI,'vue');
+    this.updateVue = updateStats.bind(null,this,vueAPI,'vue');
+    //this.unsetTimerVue = setInterval(this.updateVue,5000);
+  }
+
+  refreshStats(){
+    this.updateReact();
+    this.updateAngular();
+    this.updateEmber();
+    this.updateVue();
   }
 
   componentWillUnmount(){
-    clearInterval(this.unsetTimer);
+    /*
+    clearInterval(this.unsetTimerReact);
+    clearInterval(this.unsetTimerAngular);
+    clearInterval(this.unsetTimerEmber);
+    clearInterval(this.unsetTimerVue);
+    */
   }
 
   render(){
+    const tables = Object.keys(this.state).filter(n => !n.match('Msg'));
+
     return (
       <div className="container">
         <div className="row">
-          <div className="col-lg-3 col-md-3">
-            <h3>Notification: {this.state.notification}</h3>
-            <RepoTable
-              title="react"
-              stars={this.state.react.stars}
-              watchers={this.state.react.watchers}
-              forks={this.state.react.forks}
-              issues={this.state.react.issues}
-            />
-            <button onClick={this.updateReact}>update</button>
-          </div>
+          {tables.map(name =>
+            <div className="col-lg-3 col-md-3">
+              <RepoTable
+                title={name}
+                msg={this.state[name+'Msg']}
+                stars={this.state[name].stars}
+                watchers={this.state[name].watchers}
+                forks={this.state[name].forks}
+                issues={this.state[name].issues}
+              />
+            </div>
+          )}
+          <button onClick={this.refreshStats}>update</button>
         </div>
       </div>
     );
@@ -48,6 +93,7 @@ export default class detailContainer extends React.Component {
 const RepoTable = (props) => {
 
   const title = props.title;
+  const msg = props.msg;
   const stars = props.stars;
   const watchers = props.watchers;
   const forks = props.forks;
@@ -55,6 +101,7 @@ const RepoTable = (props) => {
 
   return (
     <div className="table-responsive">
+      <h3>Notification: {msg}</h3>
       <table className="table">
         <thead>
           <tr>
