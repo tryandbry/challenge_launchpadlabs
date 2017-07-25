@@ -4,14 +4,19 @@ import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 
 import appContainer from './container/appContainer';
 import detailContainer from './container/detailContainer';
-import repoContainer from './container/repoContainer';
+import dashContainer from './container/dashContainer';
 
 render(
   <Router history={browserHistory}>
     <Route path="/" component={appContainer}>
-      <IndexRoute component={detailContainer} />
+      <IndexRoute component={dashContainer} />
     </Route>
   </Router>
   , 
   document.getElementById('main')
 );
+
+
+/*
+      <IndexRoute component={detailContainer} />
+*/

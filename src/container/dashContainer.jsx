@@ -1,195 +1,78 @@
 import React from 'react';
 import dash from '../api/dash';
+import {updateStats} from '../api/dash';
 
 export default class detailContainer extends React.Component {
   constructor(){
     super();
     this.state = {
-      react: {},
+      react: {
+        eTag: '',
+      },
     };
-
-    /*
-    this.handleClick = this.handleClick.bind(this);
-    this.searchUser = this.searchUser.bind(this);
-    this.toggleSort = this.toggleSort.bind(this);
-    */
   }
 
   componentDidMount(){
     let reactAPI = dash('facebook','react');
-    reactAPI()
-    .then(res => {
-      console.log('gitHub API response:',res);
-      this.setState({
-        react: {
-          stars: res.data.stargazers_count,
-          watchers: res.data.watchers_count,
-          forks: res.data.forks_count,
-          issues: res.data.open_issues_count,
-        },
-      },
-        ()=>console.log('new state:',this.state));
-    })
-    .catch(error => {
-      /*
-      console.error('handleClick error:',error)
-      console.log(typeof error,Object.keys(error));
-      console.log(error.response,Object.keys(error.response));
-      */
-      if(error.response.status === 304){
-        this.setState({notification: Date() + ": no new updates"});
-      }
-      else {
-        console.error('handleClick error:',error)
-      }
-    });
-  }
-
-  handleClick(){
-    watcher(this.state.eTag)
-    .then(res => {
-      console.log('gitHub API response:',res);
-      this.setState({
-        reactWatchers: res.data,
-        eTag: res.headers.etag,
-        lastUpdated: Date(),
-        searchUser: '',
-        notification: 'new watchers!',
-      },
-        ()=>console.log('new state:',this.state));
-    })
-    .catch(error => {
-      /*
-      console.error('handleClick error:',error)
-      console.log(typeof error,Object.keys(error));
-      console.log(error.response,Object.keys(error.response));
-      */
-      if(error.response.status === 304){
-        this.setState({notification: Date() + ": no new updates"});
-      }
-      else {
-        console.error('handleClick error:',error)
-      }
-    });
+    updateStats(this,reactAPI,'react');
+    this.updateReact = updateStats.bind(null,this,reactAPI,'react');
   }
 
   render(){
-    let filteredUsers = this.state.reactWatchers.filter(user => 
-      user.login.match(this.state.searchUser)
-    );
-    let sortedUsers = sortUsers(filteredUsers,this.state.sortMode);
-
     return (
-      <div className="table-responsive">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Stats</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th>Last updated:</th>
-              <td>{this.state.lastUpdated}</td>
-            </tr>
-            <tr>
-              <th>Notification: </th>
-              <td>{this.state.notification}</td>
-            </tr>
-          </tbody>
-        </table>
-        <h3>Watchers</h3>
-        <FilterUser
-          searchUser={this.searchUser}
-          toggleSort={this.toggleSort}
-          sortMode={this.state.sortMode}
-        />
-        {sortedUsers.map(user =>
-          <User
-            key={user.id}
-            id={user.id}
-            login={user.login}
-            thumbnail={user.avatar_url}
-            url={user.html_url}
-          />
-        )}
-        <button onClick={this.handleClick}>Watcher</button>
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-3 col-md-3">
+            <RepoTable
+              title="react"
+              stars={this.state.react.stars}
+              watchers={this.state.react.watchers}
+              forks={this.state.react.forks}
+              issues={this.state.react.issues}
+            />
+            <button onClick={this.updateReact}>update</button>
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-const FilterUser = (props) => {
-  const searchUser = props.searchUser;
-  const toggleSort = props.toggleSort;
-  const sortMode = props.sortMode;
+const RepoTable = (props) => {
+
+  const title = props.title;
+  const stars = props.stars;
+  const watchers = props.watchers;
+  const forks = props.forks;
+  const issues = props.issues;
 
   return (
-    <div>
-      <form className="form-group">
-        <input
-          className="form-control"
-          type="text"
-          name="users"
-          onChange={searchUser}
-          placeholder="search user"
-        />
-        <input
-          className={sortMode === 'AZ' ? "btn btn-default active" :
-            "btn btn-default"}
-          type="button"
-          name="AZ"
-          value="A-Z"
-          onClick={toggleSort}
-        />
-        <input
-          className={sortMode === 'ZA' ? "btn btn-default active" :
-            "btn btn-default"}
-          type="button"
-          name="ZA"
-          value="Z-A"
-          onClick={toggleSort}
-        />
-      </form>
-    </div>
-  );
-}
-
-const User = (props) => {
-  const login = props.login;
-  const id = props.id;
-  const thumbnail = props.thumbnail;
-  const url = props.url;
-
-  return (
-    <div>
+    <div className="table-responsive">
       <table className="table">
+        <thead>
+          <tr>
+            <th>{title}</th>
+          </tr>
+        </thead>
         <tbody>
           <tr>
-            <td rowSpan={3}>
-              <img className="thumbnail" src={thumbnail}></img>
-            </td>
-            <th>Name:</th>
-            <td>{login}</td>
+            <th>Stars</th>
+            <td>{stars}</td>
           </tr>
           <tr>
-            <th>ID:</th>
-            <td>{id}</td>
+            <th>Watchers</th>
+            <td>{watchers}</td>
           </tr>
           <tr>
-            <th>URL:</th>
-            <td><a href={url}>{url}</a></td>
+            <th>Forks</th>
+            <td>{forks}</td>
+          </tr>
+          <tr>
+            <th>Issues</th>
+            <td>{issues}</td>
           </tr>
         </tbody>
       </table>
     </div>
   );
 }
-
-
-
-
-
-
-
-
