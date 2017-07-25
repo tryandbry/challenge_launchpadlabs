@@ -29523,7 +29523,8 @@ var detailContainer = function (_React$Component) {
     _this.state = {
       react: {
         eTag: ''
-      }
+      },
+      notification: ''
     };
     return _this;
   }
@@ -29534,6 +29535,12 @@ var detailContainer = function (_React$Component) {
       var reactAPI = (0, _dash2.default)('facebook', 'react');
       (0, _dash.updateStats)(this, reactAPI, 'react');
       this.updateReact = _dash.updateStats.bind(null, this, reactAPI, 'react');
+      this.unsetTimer = setInterval(this.updateReact, 5000);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      clearInterval(this.unsetTimer);
     }
   }, {
     key: 'render',
@@ -29547,6 +29554,12 @@ var detailContainer = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'col-lg-3 col-md-3' },
+            _react2.default.createElement(
+              'h3',
+              null,
+              'Notification: ',
+              this.state.notification
+            ),
             _react2.default.createElement(RepoTable, {
               title: 'react',
               stars: this.state.react.stars,

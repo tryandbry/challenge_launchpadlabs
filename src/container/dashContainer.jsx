@@ -9,6 +9,7 @@ export default class detailContainer extends React.Component {
       react: {
         eTag: '',
       },
+      notification: '',
     };
   }
 
@@ -16,6 +17,11 @@ export default class detailContainer extends React.Component {
     let reactAPI = dash('facebook','react');
     updateStats(this,reactAPI,'react');
     this.updateReact = updateStats.bind(null,this,reactAPI,'react');
+    this.unsetTimer = setInterval(this.updateReact,5000);
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.unsetTimer);
   }
 
   render(){
@@ -23,6 +29,7 @@ export default class detailContainer extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-lg-3 col-md-3">
+            <h3>Notification: {this.state.notification}</h3>
             <RepoTable
               title="react"
               stars={this.state.react.stars}
