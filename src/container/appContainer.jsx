@@ -9,7 +9,7 @@ export default class appContainer extends React.Component {
     console.log('appContainer is rendering');
 
     return (
-      <div>
+      <div className="container">
         {this.props.children}
       </div>
     );

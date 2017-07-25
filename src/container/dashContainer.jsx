@@ -10,18 +10,26 @@ export default class detailContainer extends React.Component {
         eTag: '',
       },
       reactMsg: '',
+      reactMsgLastUpdate: '',
+      reactMsgLastPoll: '',
       angular: {
         eTag: '',
       },
       angularMsg: '',
+      angularMsgLastUpdate: '',
+      angularMsgLastPoll: '',
       ember: {
         eTag: '',
       },
       emberMsg: '',
+      emberMsgLastUpdate: '',
+      emberMsgLastPoll: '',
       vue: {
         eTag: '',
       },
       vueMsg: '',
+      vueMsgLastUpdate: '',
+      vueMsgLastPoll: '',
     };
 
     this.refreshStats = this.refreshStats.bind(this);
@@ -69,31 +77,59 @@ export default class detailContainer extends React.Component {
     const tables = Object.keys(this.state).filter(n => !n.match('Msg'));
 
     return (
-      <div className="container">
-        <div className="row">
-          {tables.map(name =>
-            <div className="col-lg-3 col-md-3">
-              <RepoTable
-                title={name}
-                msg={this.state[name+'Msg']}
-                stars={this.state[name].stars}
-                watchers={this.state[name].watchers}
-                forks={this.state[name].forks}
-                issues={this.state[name].issues}
-              />
-            </div>
-          )}
-          <button onClick={this.refreshStats}>update</button>
-        </div>
+      <div className="row">
+        {tables.map(name =>
+          <div className="col-lg-3 col-md-3">
+            <h3>{name}</h3>
+            <RepoTableHeader
+              msg={this.state[name+'Msg']}
+              lastUpdate={this.state[name+'MsgLastUpdate']}
+              lastPoll={this.state[name+'MsgLastPoll']}
+            />
+            <RepoTableBody
+              stars={this.state[name].stars}
+              watchers={this.state[name].watchers}
+              forks={this.state[name].forks}
+              issues={this.state[name].issues}
+            />
+          </div>
+        )}
+        <button onClick={this.refreshStats}>update</button>
       </div>
     );
   }
 }
 
-const RepoTable = (props) => {
+const RepoTableHeader = (props) => {
 
-  const title = props.title;
   const msg = props.msg;
+  const lastPoll = props.lastPoll;
+  const lastUpdate = props.lastUpdate;
+
+  return (
+    <div className="table-responsive">
+      <table className="table table-bordered">
+        <tbody>
+          <tr>
+            <th>Notification:</th>
+            <td>{msg}</td>
+          </tr>
+          <tr>
+            <th>Last Poll:</th>
+            <td>{lastPoll}</td>
+          </tr>
+          <tr>
+            <th>Last Update:</th>
+            <td>{lastUpdate}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+const RepoTableBody = (props) => {
+
   const stars = props.stars;
   const watchers = props.watchers;
   const forks = props.forks;
@@ -101,13 +137,7 @@ const RepoTable = (props) => {
 
   return (
     <div className="table-responsive">
-      <h3>Notification: {msg}</h3>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>{title}</th>
-          </tr>
-        </thead>
+      <table className="table table-bordered">
         <tbody>
           <tr>
             <th>Stars</th>

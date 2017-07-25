@@ -28219,7 +28219,7 @@ var appContainer = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'container' },
         this.props.children
       );
     }
@@ -29525,18 +29525,26 @@ var detailContainer = function (_React$Component) {
         eTag: ''
       },
       reactMsg: '',
+      reactMsgLastUpdate: '',
+      reactMsgLastPoll: '',
       angular: {
         eTag: ''
       },
       angularMsg: '',
+      angularMsgLastUpdate: '',
+      angularMsgLastPoll: '',
       ember: {
         eTag: ''
       },
       emberMsg: '',
+      emberMsgLastUpdate: '',
+      emberMsgLastPoll: '',
       vue: {
         eTag: ''
       },
-      vueMsg: ''
+      vueMsg: '',
+      vueMsgLastUpdate: '',
+      vueMsgLastPoll: ''
     };
 
     _this.refreshStats = _this.refreshStats.bind(_this);
@@ -29595,29 +29603,33 @@ var detailContainer = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'container' },
+        { className: 'row' },
+        tables.map(function (name) {
+          return _react2.default.createElement(
+            'div',
+            { className: 'col-lg-3 col-md-3' },
+            _react2.default.createElement(
+              'h3',
+              null,
+              name
+            ),
+            _react2.default.createElement(RepoTableHeader, {
+              msg: _this2.state[name + 'Msg'],
+              lastUpdate: _this2.state[name + 'MsgLastUpdate'],
+              lastPoll: _this2.state[name + 'MsgLastPoll']
+            }),
+            _react2.default.createElement(RepoTableBody, {
+              stars: _this2.state[name].stars,
+              watchers: _this2.state[name].watchers,
+              forks: _this2.state[name].forks,
+              issues: _this2.state[name].issues
+            })
+          );
+        }),
         _react2.default.createElement(
-          'div',
-          { className: 'row' },
-          tables.map(function (name) {
-            return _react2.default.createElement(
-              'div',
-              { className: 'col-lg-3 col-md-3' },
-              _react2.default.createElement(RepoTable, {
-                title: name,
-                msg: _this2.state[name + 'Msg'],
-                stars: _this2.state[name].stars,
-                watchers: _this2.state[name].watchers,
-                forks: _this2.state[name].forks,
-                issues: _this2.state[name].issues
-              })
-            );
-          }),
-          _react2.default.createElement(
-            'button',
-            { onClick: this.refreshStats },
-            'update'
-          )
+          'button',
+          { onClick: this.refreshStats },
+          'update'
         )
       );
     }
@@ -29629,10 +29641,70 @@ var detailContainer = function (_React$Component) {
 exports.default = detailContainer;
 
 
-var RepoTable = function RepoTable(props) {
+var RepoTableHeader = function RepoTableHeader(props) {
 
-  var title = props.title;
   var msg = props.msg;
+  var lastPoll = props.lastPoll;
+  var lastUpdate = props.lastUpdate;
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'table-responsive' },
+    _react2.default.createElement(
+      'table',
+      { className: 'table table-bordered' },
+      _react2.default.createElement(
+        'tbody',
+        null,
+        _react2.default.createElement(
+          'tr',
+          null,
+          _react2.default.createElement(
+            'th',
+            null,
+            'Notification:'
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            msg
+          )
+        ),
+        _react2.default.createElement(
+          'tr',
+          null,
+          _react2.default.createElement(
+            'th',
+            null,
+            'Last Poll:'
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            lastPoll
+          )
+        ),
+        _react2.default.createElement(
+          'tr',
+          null,
+          _react2.default.createElement(
+            'th',
+            null,
+            'Last Update:'
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            lastUpdate
+          )
+        )
+      )
+    )
+  );
+};
+
+var RepoTableBody = function RepoTableBody(props) {
+
   var stars = props.stars;
   var watchers = props.watchers;
   var forks = props.forks;
@@ -29642,27 +29714,8 @@ var RepoTable = function RepoTable(props) {
     'div',
     { className: 'table-responsive' },
     _react2.default.createElement(
-      'h3',
-      null,
-      'Notification: ',
-      msg
-    ),
-    _react2.default.createElement(
       'table',
-      { className: 'table' },
-      _react2.default.createElement(
-        'thead',
-        null,
-        _react2.default.createElement(
-          'tr',
-          null,
-          _react2.default.createElement(
-            'th',
-            null,
-            title
-          )
-        )
-      ),
+      { className: 'table table-bordered' },
       _react2.default.createElement(
         'tbody',
         null,
@@ -29772,19 +29825,35 @@ exports.default = function (author, repo) {
 
 var updateStats = function updateStats(component, apiCall, path) {
   apiCall(component.state[path].eTag).then(function (res) {
+    var _component$setState;
+
     console.log('gitHub API response:', res);
-    component.setState(_defineProperty({}, path, {
+
+    var date = new Date();
+    date = date.toTimeString().slice(0, 17);
+    component.setState((_component$setState = {}, _defineProperty(_component$setState, path, {
       stars: res.data.stargazers_count,
       watchers: res.data.watchers_count,
       forks: res.data.forks_count,
       issues: res.data.open_issues_count,
       eTag: res.headers.etag
-    }), function () {
+    }), _defineProperty(_component$setState, path + 'Msg', "new numbers!"), _defineProperty(_component$setState, path + 'MsgLastUpdate', date), _defineProperty(_component$setState, path + 'MsgLastPoll', date), _component$setState), function () {
       return console.log('new state:', component.state);
     });
   }).catch(function (error) {
     if (error.response.status === 304) {
-      component.setState(_defineProperty({}, path + 'Msg', path.toUpperCase() + ': ' + Date() + ": no new updates"));
+      var _component$setState2;
+
+      /*
+      let date = new Date();
+      date = date.slice(0,17);
+      component.setState({
+        [path+'Msg']: path.toUpperCase() + ': ' + date + ": no new updates"
+      });
+      */
+      var date = new Date();
+      date = date.toTimeString().slice(0, 17);
+      component.setState((_component$setState2 = {}, _defineProperty(_component$setState2, path + 'Msg', "no new updates"), _defineProperty(_component$setState2, path + 'MsgLastPoll', date), _component$setState2));
     } else {
       console.error('updateStats error:', error);
     }

@@ -27,6 +27,9 @@ const updateStats = (component,apiCall,path) => {
   apiCall(component.state[path].eTag)
   .then(res => {
     console.log('gitHub API response:',res);
+
+    let date = new Date();
+    date = date.toTimeString().slice(0,17);
     component.setState({
       [path]: {
         stars: res.data.stargazers_count,
@@ -35,13 +38,26 @@ const updateStats = (component,apiCall,path) => {
         issues: res.data.open_issues_count,
         eTag: res.headers.etag,
       },
+      [path+'Msg']: "new numbers!",
+      [path+'MsgLastUpdate']: date,
+      [path+'MsgLastPoll']: date,
     },
       ()=>console.log('new state:',component.state));
   })
   .catch(error => {
     if(error.response.status === 304){
+      /*
+      let date = new Date();
+      date = date.slice(0,17);
       component.setState({
-        [path+'Msg']: path.toUpperCase() + ': ' + Date() + ": no new updates"
+        [path+'Msg']: path.toUpperCase() + ': ' + date + ": no new updates"
+      });
+      */
+      let date = new Date();
+      date = date.toTimeString().slice(0,17);
+      component.setState({
+        [path+'Msg']: "no new updates",
+        [path+'MsgLastPoll']: date,
       });
     }
     else {
