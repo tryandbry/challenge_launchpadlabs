@@ -32649,27 +32649,59 @@ var commitContainer = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (commitContainer.__proto__ || Object.getPrototypeOf(commitContainer)).call(this));
 
     _this.getStats = _this.getStats.bind(_this);
+    _this.multiGetStats = _this.multiGetStats.bind(_this);
     _this.refreshStats = _this.refreshStats.bind(_this);
+    _this.multiRefreshStats = _this.multiRefreshStats.bind(_this);
     return _this;
   }
 
   _createClass(commitContainer, [{
-    key: 'getStats',
-    value: function getStats() {
+    key: 'multiGetStats',
+    value: function multiGetStats() {
       var _this2 = this;
 
-      this.props.fetchCommitCount('react', 30, this.props.reactEtag30).then(function () {
-        return _this2.props.fetchCommitCount('react', 7, _this2.props.reactEtag7);
+      return this.getStats('react').then(function () {
+        return _this2.getStats('angular');
       }).then(function () {
-        return _this2.props.fetchCommitCount('react', 1, _this2.props.reactEtag1);
+        return _this2.getStats('ember');
+      }).then(function () {
+        return _this2.getStats('vue');
       }).catch(function (error) {
-        return console.error('refreshStats:', error);
+        return console.error('multiGetStats:', error);
+      });
+    }
+  }, {
+    key: 'multiRefreshStats',
+    value: function multiRefreshStats() {
+      var _this3 = this;
+
+      this.refreshStats('react').then(function () {
+        return _this3.refreshStats('angular');
+      }).then(function () {
+        return _this3.refreshStats('ember');
+      }).then(function () {
+        return _this3.refreshStats('vue');
+      }).catch(function (error) {
+        return console.error('multiRefreshStats:', error);
+      });
+    }
+  }, {
+    key: 'getStats',
+    value: function getStats(name) {
+      var _this4 = this;
+
+      return this.props.fetchCommitCount(name, 30, this.props[name + 'Etag30']).then(function () {
+        return _this4.props.fetchCommitCount(name, 7, _this4.props[name + 'Etag7']);
+      }).then(function () {
+        return _this4.props.fetchCommitCount(name, 1, _this4.props[name + 'Etag1']);
+      }).catch(function (error) {
+        return console.error('getStats:', error);
       });
     }
   }, {
     key: 'refreshStats',
-    value: function refreshStats() {
-      this.props.fetchCommitCount('react', 1, this.props.reactEtag1, true);
+    value: function refreshStats(name) {
+      return this.props.fetchCommitCount(name, 1, this.props[name + 'Etag1'], true);
     }
 
     /*
@@ -32684,9 +32716,9 @@ var commitContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this5 = this;
 
-      var tables = ['react'];
+      var tables = ['react', 'angular', 'ember', 'vue'];
       console.log('commitContainer props:', this.props);
 
       return _react2.default.createElement(
@@ -32702,22 +32734,22 @@ var commitContainer = function (_React$Component) {
               name
             ),
             _react2.default.createElement(CommitTableBody, {
-              lastUpdate: _this3.props.reactLastUpdate,
-              lastPoll: _this3.props.reactLastPoll,
-              day1: _this3.props.reactDay1,
-              day7: _this3.props.reactDay7,
-              day30: _this3.props.reactDay30
+              lastUpdate: _this5.props[name + 'LastUpdate'],
+              lastPoll: _this5.props[name + 'LastPoll'],
+              day1: _this5.props[name + 'Day1'],
+              day7: _this5.props[name + 'Day7'],
+              day30: _this5.props[name + 'Day30']
             })
           );
         }),
         _react2.default.createElement(
           'button',
-          { onClick: this.getStats },
+          { onClick: this.multiGetStats },
           'get'
         ),
         _react2.default.createElement(
           'button',
-          { onClick: this.refreshStats },
+          { onClick: this.multiRefreshStats },
           'refresh'
         )
       );
