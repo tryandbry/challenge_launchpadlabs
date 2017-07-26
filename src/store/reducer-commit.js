@@ -108,7 +108,7 @@ const actionSetCount = (name,day,count) => {
       obj.type = SET_DAY30;
       break;
     default:
-      throw: 'actionSetCommit: unknown day encountered';
+      throw 'actionSetCommit: unknown day encountered';
   }
   return obj;
 }
@@ -129,7 +129,7 @@ const actionSetEtag = (name,day,etag) => {
       obj.type = SET_ETAG30;
       break;
     default:
-      throw: 'actionSetEtag: unknown day encountered';
+      throw 'actionSetEtag: unknown day encountered';
   }
   return obj;
 }
@@ -141,7 +141,7 @@ export const fetchCommitCount = (name,day,etag='') => {
   if(invalidRepoName(name) || invalidDay(day)) return null;
 
   return dispatch => {
-    let call = createcall(etag);
+    let call = createCall(etag);
     let url = constructUrl(name,day,'commits');
 
     call.get(url)
@@ -196,7 +196,7 @@ const parsePageHeader = (linkStr) => {
 
 const getDate = (day) => {
   let a = new Date();
-  a.setDate(a.getDate()-days);
+  a.setDate(a.getDate()-day);
 
   return (
     a.getFullYear() + '-' +
@@ -236,8 +236,8 @@ const createCall = (etag) => {
   };
   
   //tack on etag, if valid:
-  if(eTag != ''){
-    config.headers['If-None-Match']=`${eTag}`;
+  if(etag != ''){
+    config.headers['If-None-Match']=`${etag}`;
   }
 
   return axios.create(config);

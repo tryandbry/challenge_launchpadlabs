@@ -5,8 +5,6 @@ import {fetchCommitCount} from '../store/reducer-commit';
 class commitContainer extends React.Component {
   constructor(){
     super();
-    this.state = {
-    };
 
     this.refreshStats = this.refreshStats.bind(this);
   }
@@ -18,15 +16,14 @@ class commitContainer extends React.Component {
   render(){
     const tables = ['react'];
     console.log('commitContainer props:',this.props);
-    console.log('commitContainer state:',this.state);
 
     return (
       <div className="row">
         {tables.map(name =>
-          <div className="col-lg-3 col-md-3">
+          <div key={name} className="col-lg-3 col-md-3">
             <h3>{name}</h3>
             <CommitTableBody
-              day1={this.state[name].day1}
+              day1={this.props.day1}
             />
           </div>
         )}
@@ -36,9 +33,12 @@ class commitContainer extends React.Component {
   }
 }
 
-const mapState = (state) => ({
-  react: state.commit.react,
-})
+const mapState = (state) => {
+  return {
+    react: state.commit.react,
+    day1: state.commit.react.day1,
+  }
+}
 
 const mapDispatch = {
   fetchCommitCount

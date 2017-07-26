@@ -1,7 +1,7 @@
-import {createStore, combineReducers, applyMiddlware} from 'redux';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import createLogger from 'redux-logger';
-import thunkMiddlware from 'redux-thunk';
+import thunkMiddleware from 'redux-thunk';
 
 //compose reducers
 import commit from './reducer-commit';
