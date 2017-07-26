@@ -14456,25 +14456,34 @@ var actionSetEtag = function actionSetEtag(name, day, etag) {
   return obj;
 };
 
+var actionIncrementCount = function actionIncrementCount(name, count) {
+  return {
+    type: INCREMENT_COUNT,
+    name: name,
+    count: count
+  };
+};
+
 //ACTION CREATORS - END
 
 //DISPATCHERS
 var fetchCommitCount = exports.fetchCommitCount = function fetchCommitCount(name, day) {
   var etag = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+  var increment = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
   if (invalidRepoName(name) || invalidDay(day)) return null;
 
   return function (dispatch) {
     var call = createCall(etag);
-    var url = constructUrl(name, day, 'commits');
+    var url = increment ? constructUrl(name, 1, 'commits') : constructUrl(name, day, 'commits');
 
     return call.get(url).then(function (res) {
       console.log('gitHub API response:', res);
 
       var count = countCommits(res);
 
+      increment ? dispatch(actionIncrementCount(name, count)) : dispatch(actionSetCount(name, day, count));
       dispatch(actionSetEtag(name, day, res.headers.etag));
-      dispatch(actionSetCount(name, day, count));
       dispatch(actionSetUpdateTime(name, getTime()));
 
       return 0;
@@ -14482,7 +14491,8 @@ var fetchCommitCount = exports.fetchCommitCount = function fetchCommitCount(name
       // update time if no changes since last poll
       if (error.response.status === 304) {
         dispatch(actionSetPollTime(name, getTime()));
-        console.log('no changes for ' + name + ' day' + day);
+
+        increment ? console.log('no incremental changes for ' + name) : console.log('no changes for ' + name + ' day' + day);
       } else {
         console.error('fetchCommitCount:', error);
       }
@@ -32638,21 +32648,39 @@ var commitContainer = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (commitContainer.__proto__ || Object.getPrototypeOf(commitContainer)).call(this));
 
+    _this.getStats = _this.getStats.bind(_this);
     _this.refreshStats = _this.refreshStats.bind(_this);
     return _this;
   }
 
   _createClass(commitContainer, [{
-    key: 'refreshStats',
-    value: function refreshStats() {
+    key: 'getStats',
+    value: function getStats() {
       var _this2 = this;
 
-      this.props.fetchCommitCount('react', 7, this.props.reactEtag7).then(function (res) {
+      this.props.fetchCommitCount('react', 30, this.props.reactEtag30).then(function () {
+        return _this2.props.fetchCommitCount('react', 7, _this2.props.reactEtag7);
+      }).then(function () {
         return _this2.props.fetchCommitCount('react', 1, _this2.props.reactEtag1);
       }).catch(function (error) {
         return console.error('refreshStats:', error);
       });
     }
+  }, {
+    key: 'refreshStats',
+    value: function refreshStats() {
+      this.props.fetchCommitCount('react', 1, this.props.reactEtag1, true);
+    }
+
+    /*
+    componentDidMount(){
+      this.timer = setInterval(this.refreshStats,30000);
+    }
+     componentWillUnmount(){
+      clearInterval(this.timer);
+    }
+    */
+
   }, {
     key: 'render',
     value: function render() {
@@ -32674,15 +32702,23 @@ var commitContainer = function (_React$Component) {
               name
             ),
             _react2.default.createElement(CommitTableBody, {
+              lastUpdate: _this3.props.reactLastUpdate,
+              lastPoll: _this3.props.reactLastPoll,
               day1: _this3.props.reactDay1,
-              day7: _this3.props.reactDay7
+              day7: _this3.props.reactDay7,
+              day30: _this3.props.reactDay30
             })
           );
         }),
         _react2.default.createElement(
           'button',
+          { onClick: this.getStats },
+          'get'
+        ),
+        _react2.default.createElement(
+          'button',
           { onClick: this.refreshStats },
-          'update'
+          'refresh'
         )
       );
     }
@@ -32713,8 +32749,11 @@ exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(commitContaine
 
 
 var CommitTableBody = function CommitTableBody(props) {
+  var lastUpdate = props.lastUpdate;
+  var lastPoll = props.lastPoll;
   var day1 = props.day1;
   var day7 = props.day7;
+  var day30 = props.day30;
 
   return _react2.default.createElement(
     'div',
@@ -32733,6 +32772,34 @@ var CommitTableBody = function CommitTableBody(props) {
             { colSpan: 2 },
             'Commits'
           )
+        ),
+        _react2.default.createElement(
+          'tr',
+          null,
+          _react2.default.createElement(
+            'td',
+            null,
+            'Last Update'
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            lastUpdate
+          )
+        ),
+        _react2.default.createElement(
+          'tr',
+          null,
+          _react2.default.createElement(
+            'td',
+            null,
+            'Last Poll'
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            lastPoll
+          )
         )
       ),
       _react2.default.createElement(
@@ -32742,7 +32809,7 @@ var CommitTableBody = function CommitTableBody(props) {
           'tr',
           null,
           _react2.default.createElement(
-            'th',
+            'td',
             null,
             'Since yesterday'
           ),
@@ -32756,7 +32823,7 @@ var CommitTableBody = function CommitTableBody(props) {
           'tr',
           null,
           _react2.default.createElement(
-            'th',
+            'td',
             null,
             'Since last week'
           ),
@@ -32764,6 +32831,20 @@ var CommitTableBody = function CommitTableBody(props) {
             'td',
             null,
             day7
+          )
+        ),
+        _react2.default.createElement(
+          'tr',
+          null,
+          _react2.default.createElement(
+            'td',
+            null,
+            'Since last month'
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            day30
           )
         )
       )
