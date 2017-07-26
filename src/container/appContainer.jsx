@@ -10,8 +10,9 @@ export default class appContainer extends React.Component {
 
     return (
       <div>
-        <Navbar />
         <div className="container">
+          <Navbar />
+          <div id="offset" />
           {this.props.children}
         </div>
       </div>

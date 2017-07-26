@@ -1,8 +1,9 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import GeneralContainer from './GeneralContainer';
 import CommitContainer from './CommitContainer';
 
-export default class DashContainer extends React.Component {
+class DashContainer extends React.Component {
   constructor(){
     super();
 
@@ -26,13 +27,24 @@ export default class DashContainer extends React.Component {
             <h3>Vue</h3>
           </div>
         </div>
-        <div className="row">
-          <GeneralContainer />
-        </div>
-        <div className="row">
-          <CommitContainer />
-        </div>
+        {this.props.general ? 
+          <div className="row">
+            <GeneralContainer />
+          </div>
+          : null}
+        {this.props.commit ?
+          <div className="row">
+            <CommitContainer />
+          </div>
+          : null}
       </div>
     );
   }
 }
+
+const mapState = (state) => ({
+  general: state.control.general,
+  commit: state.control.commit
+});
+
+export default connect(mapState)(DashContainer);

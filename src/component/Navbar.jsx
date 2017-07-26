@@ -1,10 +1,21 @@
 import React from 'react';
+import {Link} from 'react-router';
+import {connect} from 'react-redux';
 
-export default (props) => {
+import {
+  toggleGeneral,
+  toggleCommit,
+  toggleReset
+} from '../store/reducer-control';
+
+const Navbar = (props) => {
+  const toggleGeneral = props.toggleGeneral;
+  const toggleCommit = props.toggleCommit;
+  const toggleReset = props.toggleReset;
 
   return (
     <nav className="navbar navbar-inverse navbar-fixed-top">
-      <div className="container">
+      <div className="container-fluid">
         <div className="navbar-header">
           <button
             type="button" 
@@ -19,16 +30,39 @@ export default (props) => {
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <a className="navbar-brand" href="#">Bryan Kao's LaunchPad Labs Challenge Project</a>
+          <Link className="navbar-brand" to="/">Bryan Kao&#39;s LaunchPad Labs Challenge Project</Link>
         </div>
         <div id="navbar" className="collapse navbar-collapse">
           <ul className="nav navbar-nav">
-            <li className="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li className="active"><Link to="/">Home</Link></li>
           </ul>
+          <button
+            className="btn btn-primary navbar-btn custom-btn-nav"
+            onClick={toggleGeneral}
+          >General</button>
+          <button
+            className="btn btn-primary navbar-btn custom-btn-nav"
+            onClick={toggleCommit}
+          >Commit</button>
+          <button
+            className="btn btn-warning navbar-btn custom-btn-nav"
+            onClick={toggleReset}
+          >Reset</button>
         </div>
       </div>
     </nav>
   );
 }
+
+const mapState = (state) => ({
+  general: state.control.general,
+  commit: state.control.commit
+});
+
+const mapDispatch = {
+  toggleGeneral,
+  toggleCommit,
+  toggleReset,
+}
+
+export default connect(mapState,mapDispatch)(Navbar);
