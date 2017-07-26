@@ -78,7 +78,6 @@ class commitContainer extends React.Component {
       <div className="row">
         {tables.map(name =>
           <div key={name} className="col-lg-3 col-md-3">
-            <h3>{name}</h3>
             <CommitTableBody
               lastUpdate={this.props[`${name}LastUpdate`]}
               lastPoll={this.props[`${name}LastPoll`]}
