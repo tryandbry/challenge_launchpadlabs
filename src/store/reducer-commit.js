@@ -159,6 +159,7 @@ export const fetchCommitCount = (name,day,etag='') => {
       // add logic to use INCREMENT_COUNT on subsequent calls
     })
     .catch(error => {
+      // update time if no changes since last poll
       if(error.response.status === 304){
         dispatch(actionSetPollTime(name,getTime()));
         console.log(`no changes for ${name} day${day}`);
