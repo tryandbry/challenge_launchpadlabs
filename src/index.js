@@ -8,12 +8,13 @@ import store from './store';
 import appContainer from './container/appContainer';
 import detailContainer from './container/detailContainer';
 import dashContainer from './container/dashContainer';
+import commitContainer from './container/commitContainer';
 
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={appContainer}>
-        <IndexRoute component={dashContainer} />
+        <IndexRoute component={commitContainer} />
       </Route>
     </Router>
   </Provider>
@@ -23,5 +24,6 @@ render(
 
 
 /*
-      <IndexRoute component={detailContainer} />
+        <IndexRoute component={dashContainer} />
+        <IndexRoute component={detailContainer} />
 */
