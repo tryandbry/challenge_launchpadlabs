@@ -5,8 +5,10 @@ import thunkMiddleware from 'redux-thunk';
 
 //compose reducers
 import commit from './reducer-commit';
+import general from './reducer-general';
 const reducer = combineReducers({
   commit,
+  general,
 });
 //compose reducers - END
 
