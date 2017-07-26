@@ -7,37 +7,55 @@ class commitContainer extends React.Component {
     super();
 
     this.getStats = this.getStats.bind(this);
+    this.multiGetStats = this.multiGetStats.bind(this);
     this.refreshStats = this.refreshStats.bind(this);
+    this.multiRefreshStats = this.multiRefreshStats.bind(this);
   }
 
-  getStats(){
-    this.props.fetchCommitCount(
-      'react',
+  multiGetStats(){
+    return this.getStats('react')
+    .then(() => this.getStats('angular'))
+    .then(() => this.getStats('ember'))
+    .then(() => this.getStats('vue'))
+    .catch(error => console.error('multiGetStats:',error));
+  }
+
+  multiRefreshStats(){
+    this.refreshStats('react')
+    .then(() => this.refreshStats('angular'))
+    .then(() => this.refreshStats('ember'))
+    .then(() => this.refreshStats('vue'))
+    .catch(error => console.error('multiRefreshStats:',error));
+  }
+
+  getStats(name){
+    return this.props.fetchCommitCount(
+      name,
       30,
-      this.props.reactEtag30
+      this.props[`${name}Etag30`],
     )
     .then(() => 
       this.props.fetchCommitCount(
-        'react',
+        name,
         7,
-        this.props.reactEtag7
+        this.props[`${name}Etag7`],
       )
     )
     .then(() => 
       this.props.fetchCommitCount(
-        'react',
+        name,
         1,
-        this.props.reactEtag1
+        this.props[`${name}Etag1`],
       )
     )
-    .catch(error => console.error('refreshStats:',error));
+    .catch(error => console.error('getStats:',error));
   }
 
-  refreshStats(){
-    this.props.fetchCommitCount(
-      'react',
+  refreshStats(name){
+    return this.props.fetchCommitCount(
+      name,
       1,
-      this.props.reactEtag1,
+      this.props[`${name}Etag1`],
       true
     )
   }
@@ -53,7 +71,7 @@ class commitContainer extends React.Component {
   */
   
   render(){
-    const tables = ['react'];
+    const tables = ['react','angular','ember','vue'];
     console.log('commitContainer props:',this.props);
 
     return (
@@ -62,16 +80,16 @@ class commitContainer extends React.Component {
           <div key={name} className="col-lg-3 col-md-3">
             <h3>{name}</h3>
             <CommitTableBody
-              lastUpdate={this.props.reactLastUpdate}
-              lastPoll={this.props.reactLastPoll}
-              day1={this.props.reactDay1}
-              day7={this.props.reactDay7}
-              day30={this.props.reactDay30}
+              lastUpdate={this.props[`${name}LastUpdate`]}
+              lastPoll={this.props[`${name}LastPoll`]}
+              day1={this.props[`${name}Day1`]}
+              day7={this.props[`${name}Day7`]}
+              day30={this.props[`${name}Day30`]}
             />
           </div>
         )}
-        <button onClick={this.getStats}>get</button>
-        <button onClick={this.refreshStats}>refresh</button>
+        <button onClick={this.multiGetStats}>get</button>
+        <button onClick={this.multiRefreshStats}>refresh</button>
       </div>
     );
   }
