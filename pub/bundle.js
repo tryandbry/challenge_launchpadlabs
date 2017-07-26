@@ -14473,10 +14473,17 @@ var fetchCommitCount = exports.fetchCommitCount = function fetchCommitCount(name
 
       var count = countCommits(res);
 
-      return dispatch(actionSetEtag(name, day, res.headers.etag)) && dispatch(actionSetCount(name, day, count));
+      return dispatch(actionSetEtag(name, day, res.headers.etag)) && dispatch(actionSetCount(name, day, count)) && dispatch(actionSetUpdateTime(name, getTime()));
       //TO-DO TO-DO TO-DO TO-DO 
       // add logic to use INCREMENT_COUNT on subsequent calls
-    }).catch();
+    }).catch(function (error) {
+      if (error.response.status === 304) {
+        dispatch(actionSetPollTime(name, getTime()));
+        console.log('no changes for ' + name + ' day' + day);
+      } else {
+        console.error('fetchCommitCount:', error);
+      }
+    });
   };
 };
 //DISPATCHERS - END
@@ -14563,6 +14570,12 @@ var countCommits = function countCommits(res) {
 
   return commitCount;
 };
+
+var getTime = function getTime() {
+  var date = new Date();
+  return date.toTimeString().slice(0, 17);
+};
+
 //UTILS - END
 
 /***/ }),
@@ -32629,7 +32642,8 @@ var commitContainer = function (_React$Component) {
   _createClass(commitContainer, [{
     key: 'refreshStats',
     value: function refreshStats() {
-      this.props.fetchCommitCount('react', 1);
+      var etag = this.props.reactEtag1;
+      this.props.fetchCommitCount('react', 1, etag);
     }
   }, {
     key: 'render',
@@ -32652,7 +32666,7 @@ var commitContainer = function (_React$Component) {
               name
             ),
             _react2.default.createElement(CommitTableBody, {
-              day1: _this2.props.day1
+              day1: _this2.props.reactDay1
             })
           );
         }),
@@ -32669,10 +32683,17 @@ var commitContainer = function (_React$Component) {
 }(_react2.default.Component);
 
 var mapState = function mapState(state) {
-  return {
-    react: state.commit.react,
-    day1: state.commit.react.day1
-  };
+  var obj = {};
+  Object.keys(state.commit).forEach(function (repo) {
+    Object.keys(state.commit[repo]).forEach(function (prop) {
+      //capitalize first letter
+      var name = prop.charAt(0).toUpperCase() + prop.slice(1);
+
+      obj['' + repo + name] = state.commit[repo][prop];
+    });
+  });
+
+  return obj;
 };
 
 var mapDispatch = {

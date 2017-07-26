@@ -10,7 +10,8 @@ class commitContainer extends React.Component {
   }
 
   refreshStats(){
-    this.props.fetchCommitCount('react',1);
+    let etag = this.props.reactEtag1;
+    this.props.fetchCommitCount('react',1,etag);
   }
   
   render(){
@@ -23,7 +24,7 @@ class commitContainer extends React.Component {
           <div key={name} className="col-lg-3 col-md-3">
             <h3>{name}</h3>
             <CommitTableBody
-              day1={this.props.day1}
+              day1={this.props.reactDay1}
             />
           </div>
         )}
@@ -34,10 +35,17 @@ class commitContainer extends React.Component {
 }
 
 const mapState = (state) => {
-  return {
-    react: state.commit.react,
-    day1: state.commit.react.day1,
-  }
+  let obj={};
+  Object.keys(state.commit).forEach(repo => {
+    Object.keys(state.commit[repo]).forEach(prop => {
+      //capitalize first letter
+      let name = prop.charAt(0).toUpperCase() + prop.slice(1);
+
+      obj[`${repo}${name}`] = state.commit[repo][prop];
+    });
+  });
+
+  return obj;
 }
 
 const mapDispatch = {

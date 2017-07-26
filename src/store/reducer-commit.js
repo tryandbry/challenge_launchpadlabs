@@ -152,12 +152,21 @@ export const fetchCommitCount = (name,day,etag='') => {
 
       return (
         dispatch(actionSetEtag(name,day,res.headers.etag)) &&
-        dispatch(actionSetCount(name,day,count))
+        dispatch(actionSetCount(name,day,count)) &&
+        dispatch(actionSetUpdateTime(name,getTime()))
       );
       //TO-DO TO-DO TO-DO TO-DO 
       // add logic to use INCREMENT_COUNT on subsequent calls
     })
-    .catch();
+    .catch(error => {
+      if(error.response.status === 304){
+        dispatch(actionSetPollTime(name,getTime()));
+        console.log(`no changes for ${name} day${day}`);
+      }
+      else {
+        console.error('fetchCommitCount:',error);
+      }
+    });
   }
 }
 //DISPATCHERS - END
@@ -252,4 +261,10 @@ const countCommits = (res) => {
 
   return commitCount;
 }
+
+const getTime = () => {
+  let date = new Date();
+  return date.toTimeString().slice(0,17);
+}
+
 //UTILS - END
