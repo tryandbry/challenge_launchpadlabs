@@ -14468,15 +14468,18 @@ var fetchCommitCount = exports.fetchCommitCount = function fetchCommitCount(name
     var call = createCall(etag);
     var url = constructUrl(name, day, 'commits');
 
-    call.get(url).then(function (res) {
+    return call.get(url).then(function (res) {
       console.log('gitHub API response:', res);
 
       var count = countCommits(res);
 
-      return dispatch(actionSetEtag(name, day, res.headers.etag)) && dispatch(actionSetCount(name, day, count)) && dispatch(actionSetUpdateTime(name, getTime()));
-      //TO-DO TO-DO TO-DO TO-DO 
-      // add logic to use INCREMENT_COUNT on subsequent calls
+      dispatch(actionSetEtag(name, day, res.headers.etag));
+      dispatch(actionSetCount(name, day, count));
+      dispatch(actionSetUpdateTime(name, getTime()));
+
+      return 0;
     }).catch(function (error) {
+      // update time if no changes since last poll
       if (error.response.status === 304) {
         dispatch(actionSetPollTime(name, getTime()));
         console.log('no changes for ' + name + ' day' + day);
@@ -32642,13 +32645,18 @@ var commitContainer = function (_React$Component) {
   _createClass(commitContainer, [{
     key: 'refreshStats',
     value: function refreshStats() {
-      var etag = this.props.reactEtag1;
-      this.props.fetchCommitCount('react', 1, etag);
+      var _this2 = this;
+
+      this.props.fetchCommitCount('react', 7, this.props.reactEtag7).then(function (res) {
+        return _this2.props.fetchCommitCount('react', 1, _this2.props.reactEtag1);
+      }).catch(function (error) {
+        return console.error('refreshStats:', error);
+      });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var tables = ['react'];
       console.log('commitContainer props:', this.props);
@@ -32666,7 +32674,8 @@ var commitContainer = function (_React$Component) {
               name
             ),
             _react2.default.createElement(CommitTableBody, {
-              day1: _this2.props.reactDay1
+              day1: _this3.props.reactDay1,
+              day7: _this3.props.reactDay7
             })
           );
         }),
@@ -32705,6 +32714,7 @@ exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(commitContaine
 
 var CommitTableBody = function CommitTableBody(props) {
   var day1 = props.day1;
+  var day7 = props.day7;
 
   return _react2.default.createElement(
     'div',
@@ -32740,6 +32750,20 @@ var CommitTableBody = function CommitTableBody(props) {
             'td',
             null,
             day1
+          )
+        ),
+        _react2.default.createElement(
+          'tr',
+          null,
+          _react2.default.createElement(
+            'th',
+            null,
+            'Since last week'
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            day7
           )
         )
       )

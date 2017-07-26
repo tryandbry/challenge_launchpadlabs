@@ -144,19 +144,17 @@ export const fetchCommitCount = (name,day,etag='') => {
     let call = createCall(etag);
     let url = constructUrl(name,day,'commits');
 
-    call.get(url)
+    return call.get(url)
     .then(res => {
       console.log('gitHub API response:',res);
 
       let count = countCommits(res);
 
-      return (
-        dispatch(actionSetEtag(name,day,res.headers.etag)) &&
-        dispatch(actionSetCount(name,day,count)) &&
-        dispatch(actionSetUpdateTime(name,getTime()))
-      );
-      //TO-DO TO-DO TO-DO TO-DO 
-      // add logic to use INCREMENT_COUNT on subsequent calls
+      dispatch(actionSetEtag(name,day,res.headers.etag))
+      dispatch(actionSetCount(name,day,count))
+      dispatch(actionSetUpdateTime(name,getTime()))
+
+      return 0;
     })
     .catch(error => {
       // update time if no changes since last poll

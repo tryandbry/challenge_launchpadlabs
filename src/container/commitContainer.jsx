@@ -10,8 +10,19 @@ class commitContainer extends React.Component {
   }
 
   refreshStats(){
-    let etag = this.props.reactEtag1;
-    this.props.fetchCommitCount('react',1,etag);
+    this.props.fetchCommitCount(
+      'react',
+      7,
+      this.props.reactEtag7
+    )
+    .then(res => 
+      this.props.fetchCommitCount(
+        'react',
+        1,
+        this.props.reactEtag1
+      )
+    )
+    .catch(error => console.error('refreshStats:',error));
   }
   
   render(){
@@ -25,6 +36,7 @@ class commitContainer extends React.Component {
             <h3>{name}</h3>
             <CommitTableBody
               day1={this.props.reactDay1}
+              day7={this.props.reactDay7}
             />
           </div>
         )}
@@ -56,6 +68,7 @@ export default connect(mapState,mapDispatch)(commitContainer);
 
 const CommitTableBody = (props) => {
   const day1 = props.day1;
+  const day7 = props.day7;
 
   return (
     <div className="table-responsive">
@@ -69,6 +82,10 @@ const CommitTableBody = (props) => {
           <tr>
             <th>Since yesterday</th>
             <td>{day1}</td>
+          </tr>
+          <tr>
+            <th>Since last week</th>
+            <td>{day7}</td>
           </tr>
         </tbody>
       </table>
