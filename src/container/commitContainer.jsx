@@ -6,13 +6,51 @@ class commitContainer extends React.Component {
   constructor(){
     super();
 
+    this.getStats = this.getStats.bind(this);
     this.refreshStats = this.refreshStats.bind(this);
   }
 
-  refreshStats(){
-    let etag = this.props.reactEtag1;
-    this.props.fetchCommitCount('react',1,etag);
+  getStats(){
+    this.props.fetchCommitCount(
+      'react',
+      30,
+      this.props.reactEtag30
+    )
+    .then(() => 
+      this.props.fetchCommitCount(
+        'react',
+        7,
+        this.props.reactEtag7
+      )
+    )
+    .then(() => 
+      this.props.fetchCommitCount(
+        'react',
+        1,
+        this.props.reactEtag1
+      )
+    )
+    .catch(error => console.error('refreshStats:',error));
   }
+
+  refreshStats(){
+    this.props.fetchCommitCount(
+      'react',
+      1,
+      this.props.reactEtag1,
+      true
+    )
+  }
+
+  /*
+  componentDidMount(){
+    this.timer = setInterval(this.refreshStats,30000);
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.timer);
+  }
+  */
   
   render(){
     const tables = ['react'];
@@ -24,11 +62,16 @@ class commitContainer extends React.Component {
           <div key={name} className="col-lg-3 col-md-3">
             <h3>{name}</h3>
             <CommitTableBody
+              lastUpdate={this.props.reactLastUpdate}
+              lastPoll={this.props.reactLastPoll}
               day1={this.props.reactDay1}
+              day7={this.props.reactDay7}
+              day30={this.props.reactDay30}
             />
           </div>
         )}
-        <button onClick={this.refreshStats}>update</button>
+        <button onClick={this.getStats}>get</button>
+        <button onClick={this.refreshStats}>refresh</button>
       </div>
     );
   }
@@ -55,7 +98,11 @@ const mapDispatch = {
 export default connect(mapState,mapDispatch)(commitContainer);
 
 const CommitTableBody = (props) => {
+  const lastUpdate = props.lastUpdate;
+  const lastPoll = props.lastPoll;
   const day1 = props.day1;
+  const day7 = props.day7;
+  const day30 = props.day30;
 
   return (
     <div className="table-responsive">
@@ -64,11 +111,27 @@ const CommitTableBody = (props) => {
           <tr>
             <th colSpan={2}>Commits</th>
           </tr>
+          <tr>
+            <td>Last Update</td>
+            <td>{lastUpdate}</td>
+          </tr>
+          <tr>
+            <td>Last Poll</td>
+            <td>{lastPoll}</td>
+          </tr>
         </thead>
         <tbody>
           <tr>
-            <th>Since yesterday</th>
+            <td>Since yesterday</td>
             <td>{day1}</td>
+          </tr>
+          <tr>
+            <td>Since last week</td>
+            <td>{day7}</td>
+          </tr>
+          <tr>
+            <td>Since last month</td>
+            <td>{day30}</td>
           </tr>
         </tbody>
       </table>

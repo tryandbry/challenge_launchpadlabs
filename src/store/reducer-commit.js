@@ -134,34 +134,46 @@ const actionSetEtag = (name,day,etag) => {
   return obj;
 }
 
+const actionIncrementCount = (name,count) => ({
+  type: INCREMENT_COUNT,
+  name,
+  count,
+})
+
 //ACTION CREATORS - END
 
 //DISPATCHERS
-export const fetchCommitCount = (name,day,etag='') => {
+export const fetchCommitCount = (name,day,etag='',increment=false) => {
   if(invalidRepoName(name) || invalidDay(day)) return null;
 
   return dispatch => {
     let call = createCall(etag);
-    let url = constructUrl(name,day,'commits');
-
-    call.get(url)
+    let url = increment ? 
+      constructUrl(name,1,'commits') : 
+      constructUrl(name,day,'commits'); 
+      
+    return call.get(url)
     .then(res => {
       console.log('gitHub API response:',res);
 
       let count = countCommits(res);
 
-      return (
-        dispatch(actionSetEtag(name,day,res.headers.etag)) &&
-        dispatch(actionSetCount(name,day,count)) &&
-        dispatch(actionSetUpdateTime(name,getTime()))
-      );
-      //TO-DO TO-DO TO-DO TO-DO 
-      // add logic to use INCREMENT_COUNT on subsequent calls
+      increment ? 
+        dispatch(actionIncrementCount(name,count)) :
+        dispatch(actionSetCount(name,day,count));
+      dispatch(actionSetEtag(name,day,res.headers.etag));
+      dispatch(actionSetUpdateTime(name,getTime()));
+
+      return 0;
     })
     .catch(error => {
+      // update time if no changes since last poll
       if(error.response.status === 304){
         dispatch(actionSetPollTime(name,getTime()));
-        console.log(`no changes for ${name} day${day}`);
+
+        increment ? 
+          console.log(`no incremental changes for ${name}`) : 
+          console.log(`no changes for ${name} day${day}`);
       }
       else {
         console.error('fetchCommitCount:',error);
