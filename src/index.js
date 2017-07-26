@@ -6,14 +6,15 @@ import {Provider} from 'react-redux';
 import store from './store';
 
 import appContainer from './container/appContainer';
-import commitContainer from './container/commitContainer';
-import generalContainer from './container/generalContainer';
+import DashContainer from './container/DashContainer';
+import CommitContainer from './container/CommitContainer';
+import GeneralContainer from './container/GeneralContainer';
 
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={appContainer}>
-        <IndexRoute component={generalContainer} />
+        <IndexRoute component={DashContainer} />
       </Route>
     </Router>
   </Provider>

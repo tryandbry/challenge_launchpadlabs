@@ -1,4 +1,5 @@
 import React from 'react';
+import Navbar from '../component/Navbar';
 
 export default class appContainer extends React.Component {
   constructor(){
@@ -6,24 +7,14 @@ export default class appContainer extends React.Component {
   }
 
   render(){
-    console.log('appContainer is rendering');
 
     return (
-      <div className="container">
-        {this.props.children}
+      <div>
+        <Navbar />
+        <div className="container">
+          {this.props.children}
+        </div>
       </div>
     );
   }
 }
-/*
-export default (props) => {
-
-  console.log('appContainer is rendering');
-
-  return (
-    <div>
-      <h2>Looks Ma!  I has React werking!!1</h2>
-    </div>
-  );
-}
-*/
