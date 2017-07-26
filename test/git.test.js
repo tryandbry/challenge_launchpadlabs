@@ -4,8 +4,9 @@ const axios = require('axios');
 const URL = 'https://api.github.com/repos/facebook/react/subscribers';
 */
 //const URL = 'https://api.github.com/repos/facebook/react/subscribers';
+const URL = 'https://api.github.com/repos/facebook/react/commits?since=2017-07-24&per_page=1';
 //const URL = 'https://api.github.com/repos/facebook/react/commits';
-const URL = 'https://api.github.com/repos/jmregan0/Smart_Docs/stargazers';
+//const URL = 'https://api.github.com/repos/jmregan0/Smart_Docs/stargazers';
 //const URL = 'https://api.github.com/repos/facebook/react';
 //const URL = 'https://api.github.com/users/tryandbry';
 //const URL = 'https://api.github.com/orgs/octokit/repos';
