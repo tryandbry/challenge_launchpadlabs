@@ -1,11 +1,18 @@
 import React from 'react';
 import dash from '../api/dash';
 import {updateStats} from '../api/dash';
+import commitAPI from '../api/commit';
+import {updateCommitStats} from '../api/commit';
 
 export default class detailContainer extends React.Component {
   constructor(){
     super();
     this.state = {
+      reactCommit: {
+        eTag1: '',
+        day: -1,
+      },
+      /*
       react: {
         eTag: '',
       },
@@ -18,24 +25,39 @@ export default class detailContainer extends React.Component {
       angularMsg: '',
       angularMsgLastUpdate: '',
       angularMsgLastPoll: '',
+      angularCommit: {
+        eTag1: '',
+      },
       ember: {
         eTag: '',
       },
       emberMsg: '',
       emberMsgLastUpdate: '',
       emberMsgLastPoll: '',
+      emberCommit: {
+        eTag1: '',
+      },
       vue: {
         eTag: '',
       },
       vueMsg: '',
       vueMsgLastUpdate: '',
       vueMsgLastPoll: '',
+      vueCommit: {
+        eTag1: '',
+      },
+      */
     };
 
     this.refreshStats = this.refreshStats.bind(this);
   }
 
   componentDidMount(){
+    let reactCommitAPI = commitAPI('facebook','react');
+    updateCommitStats(this,reactCommitAPI,'reactCommit');
+    this.updateReactCommit = 
+      updateCommitStats.bind(null,this,reactCommitAPI,'reactCommit');
+    /*
     let reactAPI = dash('facebook','react');
     updateStats(this,reactAPI,'react');
     this.updateReact = updateStats.bind(null,this,reactAPI,'react');
@@ -55,13 +77,17 @@ export default class detailContainer extends React.Component {
     updateStats(this,vueAPI,'vue');
     this.updateVue = updateStats.bind(null,this,vueAPI,'vue');
     //this.unsetTimerVue = setInterval(this.updateVue,5000);
+    */
   }
 
   refreshStats(){
+    this.updateReactCommit();
+    /*
     this.updateReact();
     this.updateAngular();
     this.updateEmber();
     this.updateVue();
+    */
   }
 
   componentWillUnmount(){
@@ -74,23 +100,17 @@ export default class detailContainer extends React.Component {
   }
 
   render(){
-    const tables = Object.keys(this.state).filter(n => !n.match('Msg'));
+    //const tables = Object.keys(this.state).filter(n => !n.match('Msg'));
+    //const tables = ['react','angular','ember','vue'];
+    const tables = ['react'];
 
     return (
       <div className="row">
         {tables.map(name =>
           <div className="col-lg-3 col-md-3">
             <h3>{name}</h3>
-            <RepoTableHeader
-              msg={this.state[name+'Msg']}
-              lastUpdate={this.state[name+'MsgLastUpdate']}
-              lastPoll={this.state[name+'MsgLastPoll']}
-            />
-            <RepoTableBody
-              stars={this.state[name].stars}
-              watchers={this.state[name].watchers}
-              forks={this.state[name].forks}
-              issues={this.state[name].issues}
+            <CommitTableBody
+              day={this.state[name+'Commit'].day}
             />
           </div>
         )}
@@ -154,6 +174,29 @@ const RepoTableBody = (props) => {
           <tr>
             <th>Issues</th>
             <td>{issues}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+const CommitTableBody = (props) => {
+
+  const day = props.day;
+
+  return (
+    <div className="table-responsive">
+      <table className="table table-bordered">
+        <thead>
+          <tr>
+            <th colSpan={2}>Commits</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Since yesterday</th>
+            <td>{day}</td>
           </tr>
         </tbody>
       </table>
