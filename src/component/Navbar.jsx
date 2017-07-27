@@ -13,6 +13,8 @@ const Navbar = (props) => {
   const toggleCommit = props.toggleCommit;
   const toggleReset = props.toggleReset;
 
+  const pathname = props.pathname;
+
   return (
     <nav className="navbar navbar-inverse navbar-fixed-top">
       <div className="container-fluid">
@@ -34,7 +36,14 @@ const Navbar = (props) => {
         </div>
         <div id="navbar" className="collapse navbar-collapse">
           <ul className="nav navbar-nav">
-            <li className="active"><Link to="/">Home</Link></li>
+            {pathname === '/' ? 
+              <li className="active"><Link to="/">Home</Link></li> :
+              <li><Link to="/">Home</Link></li>
+            }
+            {pathname === '/detail' ? 
+              <li className="active"><Link to="/detail">Watchers</Link></li> :
+              <li><Link to="/detail">Watchers</Link></li>
+            }
           </ul>
           <button
             className="btn btn-primary navbar-btn custom-btn-nav"

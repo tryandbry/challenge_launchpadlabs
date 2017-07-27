@@ -9,7 +9,10 @@ app.use(express.static(resolve(__dirname,'../node_modules/jquery/dist')));
 app.use(express.static(resolve(__dirname,'../node_modules/bootstrap/dist/js')));
 app.use(express.static(resolve(__dirname,'../node_modules/bootstrap/dist/css')));
 
-app.use('/api',require('./api'));
+//app.use('/api',require('./api'));
+app.get('/*', (req,res) => {
+  res.sendFile(resolve(__dirname, '../pub/index.html'));
+});
 
 app.listen(PORT,()=>{
   console.log('server listening on ' + PORT);

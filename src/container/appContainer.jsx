@@ -16,18 +16,9 @@ class appContainer extends React.Component {
     this.multiRefreshCommitStats = this.multiRefreshCommitStats.bind(this);
     this.getCommitStats = this.getCommitStats.bind(this);
     this.refreshCommitStats = this.refreshCommitStats.bind(this);
-    //this.refresh = this.refresh.bind(this);
   }
 
   /*
-  refresh(){
-    //this.getGeneralStats('react');
-    //this.multiGetGeneralStats();
-    //this.refreshCommitStats('react');
-    //this.getCommitStats('react');
-  }
-  */
-
   componentDidMount(){
     this.multiGetGeneralStats();
     this.multiGetCommitStats();
@@ -46,6 +37,7 @@ class appContainer extends React.Component {
     clearInterval(this.generalTimer);
     clearInterval(this.commitTimer);
   }
+  */
 
   // GeneralContainer
   multiGetGeneralStats(){
@@ -57,12 +49,6 @@ class appContainer extends React.Component {
   }
 
   getGeneralStats(name){
-    /*
-    console.log(
-      'getGeneralStats etag:',
-      this.props[`${name}GeneralEtag`]
-    );
-    */
     return this.props.fetchStats(
       name,
       this.props[`${name}GeneralEtag`],
@@ -111,12 +97,6 @@ class appContainer extends React.Component {
   }
 
   refreshCommitStats(name){
-    /*
-    console.log(
-      'refreshCommitStats etag:',
-      this.props[`${name}CommitEtag1`]
-    );
-    */
     return this.props.fetchCommitCount(
       name,
       1,
@@ -127,14 +107,15 @@ class appContainer extends React.Component {
   // CommitContainer - END
 
   render(){
-    console.log('appContainer props:',this.props);
+    //console.log('appContainer props:',this.props);
 
     return (
       <div>
         <div className="container">
-          <Navbar />
+          <Navbar 
+            pathname={this.props.location.pathname}
+          />
           <div id="offset" />
-          {/*<button onClick={this.refresh}>refresh</button>*/}
           {this.props.children}
         </div>
       </div>
