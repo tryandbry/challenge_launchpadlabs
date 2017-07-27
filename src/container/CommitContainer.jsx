@@ -1,17 +1,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {fetchCommitCount} from '../store/reducer-commit';
+//import {fetchCommitCount} from '../store/reducer-commit';
 
 class commitContainer extends React.Component {
   constructor(){
     super();
 
+    /*
     this.getStats = this.getStats.bind(this);
     this.multiGetStats = this.multiGetStats.bind(this);
     this.refreshStats = this.refreshStats.bind(this);
     this.multiRefreshStats = this.multiRefreshStats.bind(this);
+    */
   }
 
+  /*
   multiGetStats(){
     return this.getStats('react')
     .then(() => this.getStats('angular'))
@@ -59,6 +62,7 @@ class commitContainer extends React.Component {
       true
     )
   }
+  */
 
   /*
   componentDidMount(){
@@ -87,8 +91,8 @@ class commitContainer extends React.Component {
             />
           </div>
         )}
-        <button onClick={this.multiGetStats}>get</button>
-        <button onClick={this.multiRefreshStats}>refresh</button>
+        {/*<button onClick={this.multiGetStats}>get</button>
+        <button onClick={this.multiRefreshStats}>refresh</button>*/}
       </div>
     );
   }
@@ -108,11 +112,14 @@ const mapState = (state) => {
   return obj;
 }
 
+/*
 const mapDispatch = {
   fetchCommitCount
 }
+*/
 
-export default connect(mapState,mapDispatch)(commitContainer);
+//export default connect(mapState,mapDispatch)(commitContainer);
+export default connect(mapState)(commitContainer);
 
 const CommitTableBody = (props) => {
   const lastUpdate = props.lastUpdate;

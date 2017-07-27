@@ -1,15 +1,15 @@
 import axios from 'axios';
 
 //VERBS
-const SET_DAY1 = 'SET_DAY1';
-const SET_DAY7 = 'SET_DAY7';
-const SET_DAY30 = 'SET_DAY30';
-const INCREMENT_COUNT = 'INCREMENT_COUNT';
-const SET_UPDATE_TIME = 'SET_UPDATE_TIME';
-const SET_POLL_TIME = 'SET_POLL_TIME';
-const SET_ETAG1 = 'SET_ETAG1';
-const SET_ETAG7 = 'SET_ETAG7';
-const SET_ETAG30 = 'SET_ETAG30';
+const COMMIT_SET_DAY1 = 'COMMIT_SET_DAY1';
+const COMMIT_SET_DAY7 = 'COMMIT_SET_DAY7';
+const COMMIT_SET_DAY30 = 'COMMIT_SET_DAY30';
+const COMMIT_INCREMENT_COUNT = 'COMMIT_INCREMENT_COUNT';
+const COMMIT_SET_UPDATE_TIME = 'COMMIT_SET_UPDATE_TIME';
+const COMMIT_SET_POLL_TIME = 'COMMIT_SET_POLL_TIME';
+const COMMIT_SET_ETAG1 = 'COMMIT_SET_ETAG1';
+const COMMIT_SET_ETAG7 = 'COMMIT_SET_ETAG7';
+const COMMIT_SET_ETAG30 = 'COMMIT_SET_ETAG30';
 //VERBS - END
 
 //CONSTANTS
@@ -38,23 +38,23 @@ const commit = (state=INIT,action) => {
   let newState = Object.assign({},state);
 
   switch(action.type) {
-    case SET_UPDATE_TIME:
+    case COMMIT_SET_UPDATE_TIME:
       newState[action.name].lastUpdate = action.time;
       newState[action.name].lastPoll = action.time;
       break; 
-    case SET_POLL_TIME:
+    case COMMIT_SET_POLL_TIME:
       newState[action.name].lastPoll = action.time;
       break; 
-    case SET_DAY1:
+    case COMMIT_SET_DAY1:
       newState[action.name].day1 = action.count;
       break;
-    case SET_DAY7:
+    case COMMIT_SET_DAY7:
       newState[action.name].day7 = action.count;
       break;
-    case SET_DAY30:
+    case COMMIT_SET_DAY30:
       newState[action.name].day30 = action.count;
       break;
-    case INCREMENT_COUNT:
+    case COMMIT_INCREMENT_COUNT:
       //calculate delta
       let delta = action.count - state[action.name].day1;
       //set new counts
@@ -62,13 +62,13 @@ const commit = (state=INIT,action) => {
       newState[action.name].day7 += delta;
       newState[action.name].day30 += delta;
       break;
-    case SET_ETAG1:
+    case COMMIT_SET_ETAG1:
       newState[action.name].etag1 = action.etag;
       break;
-    case SET_ETAG7:
+    case COMMIT_SET_ETAG7:
       newState[action.name].etag7 = action.etag;
       break;
-    case SET_ETAG30:
+    case COMMIT_SET_ETAG30:
       newState[action.name].etag30 = action.etag;
       break;
     default:
@@ -81,13 +81,13 @@ export default commit;
 
 //ACTION CREATORS
 const actionSetUpdateTime = (name,time) => ({
-  type: SET_UPDATE_TIME,
+  type: COMMIT_SET_UPDATE_TIME,
   name,
   time,
 })
 
 const actionSetPollTime = (name,time) => ({
-  type: SET_POLL_TIME,
+  type: COMMIT_SET_POLL_TIME,
   name,
   time
 })
@@ -99,13 +99,13 @@ const actionSetCount = (name,day,count) => {
   };
   switch(day){
     case 1:
-      obj.type = SET_DAY1;
+      obj.type = COMMIT_SET_DAY1;
       break;
     case 7:
-      obj.type = SET_DAY7;
+      obj.type = COMMIT_SET_DAY7;
       break;
     case 30:
-      obj.type = SET_DAY30;
+      obj.type = COMMIT_SET_DAY30;
       break;
     default:
       throw 'actionSetCommit: unknown day encountered';
@@ -120,13 +120,13 @@ const actionSetEtag = (name,day,etag) => {
   };
   switch(day){
     case 1:
-      obj.type = SET_ETAG1;
+      obj.type = COMMIT_SET_ETAG1;
       break;
     case 7:
-      obj.type = SET_ETAG7;
+      obj.type = COMMIT_SET_ETAG7;
       break;
     case 30:
-      obj.type = SET_ETAG30;
+      obj.type = COMMIT_SET_ETAG30;
       break;
     default:
       throw 'actionSetEtag: unknown day encountered';
@@ -135,7 +135,7 @@ const actionSetEtag = (name,day,etag) => {
 }
 
 const actionIncrementCount = (name,count) => ({
-  type: INCREMENT_COUNT,
+  type: COMMIT_INCREMENT_COUNT,
   name,
   count,
 })

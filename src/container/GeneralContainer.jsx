@@ -1,15 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {fetchStats} from '../store/reducer-general';
+//import {fetchStats} from '../store/reducer-general';
 
 class generalContainer extends React.Component {
   constructor(){
     super();
 
+    /*
     this.getStats = this.getStats.bind(this);
     this.multiGetStats = this.multiGetStats.bind(this);
+    */
   }
 
+  /*
   multiGetStats(){
     return this.getStats('react')
     .then(() => this.getStats('angular'))
@@ -24,6 +27,7 @@ class generalContainer extends React.Component {
       this.props[`${name}Etag`],
     );
   }
+  */
 
   /*
   componentDidMount(){
@@ -53,7 +57,7 @@ class generalContainer extends React.Component {
             />
           </div>
         )}
-        <button onClick={this.multiGetStats}>get</button>
+        {/*<button onClick={this.multiGetStats}>get</button>*/}
       </div>
     );
   }
@@ -73,11 +77,14 @@ const mapState = (state) => {
   return obj;
 }
 
+/*
 const mapDispatch = {
   fetchStats
 }
+*/
 
-export default connect(mapState,mapDispatch)(generalContainer);
+//export default connect(mapState,mapDispatch)(generalContainer);
+export default connect(mapState)(generalContainer);
 
 const GeneralTableBody = (props) => {
   const lastUpdate = props.lastUpdate;
