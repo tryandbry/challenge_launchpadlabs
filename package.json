@@ -1,7 +1,7 @@
 {
   "name": "challenge-launchpadlabs",
   "version": "1.0.0",
-  "description": "",
+  "description": "A dashboard for comparing GitHub activity on React, Angular, Ember, and Vue",
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
