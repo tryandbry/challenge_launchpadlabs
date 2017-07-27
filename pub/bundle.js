@@ -3985,6 +3985,25 @@ var locationsAreEqual = exports.locationsAreEqual = function locationsAreEqual(a
 
 /***/ }),
 /* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(266);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(269);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
+
+/***/ }),
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4000,7 +4019,7 @@ var locationsAreEqual = exports.locationsAreEqual = function locationsAreEqual(a
 
 
 
-var EventPluginHub = __webpack_require__(30);
+var EventPluginHub = __webpack_require__(31);
 var EventPluginUtils = __webpack_require__(47);
 
 var accumulateInto = __webpack_require__(85);
@@ -4124,7 +4143,7 @@ module.exports = EventPropagators;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4404,7 +4423,7 @@ module.exports = EventPluginHub;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4468,7 +4487,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 module.exports = SyntheticUIEvent;
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4519,7 +4538,7 @@ var ReactInstanceMap = {
 module.exports = ReactInstanceMap;
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4555,25 +4574,6 @@ var component = exports.component = oneOfType([func, string]);
 var components = exports.components = oneOfType([component, object]);
 var route = exports.route = oneOfType([object, element]);
 var routes = exports.routes = oneOfType([route, arrayOf(route)]);
-
-/***/ }),
-/* 34 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(266);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(124);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(269);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
 
 /***/ }),
 /* 35 */
@@ -5143,7 +5143,7 @@ module.exports = TransactionImpl;
 
 
 
-var SyntheticUIEvent = __webpack_require__(31);
+var SyntheticUIEvent = __webpack_require__(32);
 var ViewportMetrics = __webpack_require__(92);
 
 var getEventModifierState = __webpack_require__(51);
@@ -7096,7 +7096,7 @@ module.exports = KeyEscapeUtils;
 var _prodInvariant = __webpack_require__(3);
 
 var ReactCurrentOwner = __webpack_require__(13);
-var ReactInstanceMap = __webpack_require__(32);
+var ReactInstanceMap = __webpack_require__(33);
 var ReactInstrumentation = __webpack_require__(11);
 var ReactUpdates = __webpack_require__(14);
 
@@ -11876,7 +11876,7 @@ var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMContainerInfo = __webpack_require__(232);
 var ReactDOMFeatureFlags = __webpack_require__(233);
 var ReactFeatureFlags = __webpack_require__(89);
-var ReactInstanceMap = __webpack_require__(32);
+var ReactInstanceMap = __webpack_require__(33);
 var ReactInstrumentation = __webpack_require__(11);
 var ReactMarkupChecksum = __webpack_require__(234);
 var ReactReconciler = __webpack_require__(24);
@@ -13130,7 +13130,7 @@ var _RouteUtils = __webpack_require__(17);
 
 var _PatternUtils = __webpack_require__(26);
 
-var _InternalPropTypes = __webpack_require__(33);
+var _InternalPropTypes = __webpack_require__(34);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15300,9 +15300,7 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(34);
-
-var _reducerGeneral = __webpack_require__(137);
+var _reactRedux = __webpack_require__(29);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15312,53 +15310,51 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+//import {fetchStats} from '../store/reducer-general';
+
 var generalContainer = function (_React$Component) {
   _inherits(generalContainer, _React$Component);
 
   function generalContainer() {
     _classCallCheck(this, generalContainer);
 
-    var _this = _possibleConstructorReturn(this, (generalContainer.__proto__ || Object.getPrototypeOf(generalContainer)).call(this));
-
-    _this.getStats = _this.getStats.bind(_this);
-    _this.multiGetStats = _this.multiGetStats.bind(_this);
-    return _this;
-  }
-
-  _createClass(generalContainer, [{
-    key: 'multiGetStats',
-    value: function multiGetStats() {
-      var _this2 = this;
-
-      return this.getStats('react').then(function () {
-        return _this2.getStats('angular');
-      }).then(function () {
-        return _this2.getStats('ember');
-      }).then(function () {
-        return _this2.getStats('vue');
-      }).catch(function (error) {
-        return console.error('multiGetStats:', error);
-      });
-    }
-  }, {
-    key: 'getStats',
-    value: function getStats(name) {
-      return this.props.fetchStats(name, this.props[name + 'Etag']);
-    }
+    return _possibleConstructorReturn(this, (generalContainer.__proto__ || Object.getPrototypeOf(generalContainer)).call(this));
 
     /*
-    componentDidMount(){
-      this.timer = setInterval(this.refreshStats,30000);
-    }
-     componentWillUnmount(){
-      clearInterval(this.timer);
-    }
+    this.getStats = this.getStats.bind(this);
+    this.multiGetStats = this.multiGetStats.bind(this);
     */
+  }
 
-  }, {
+  /*
+  multiGetStats(){
+    return this.getStats('react')
+    .then(() => this.getStats('angular'))
+    .then(() => this.getStats('ember'))
+    .then(() => this.getStats('vue'))
+    .catch(error => console.error('multiGetStats:',error));
+  }
+   getStats(name){
+    return this.props.fetchStats(
+      name,
+      this.props[`${name}Etag`],
+    );
+  }
+  */
+
+  /*
+  componentDidMount(){
+    this.timer = setInterval(this.refreshStats,30000);
+  }
+   componentWillUnmount(){
+    clearInterval(this.timer);
+  }
+  */
+
+  _createClass(generalContainer, [{
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       var tables = ['react', 'angular', 'ember', 'vue'];
       console.log('generalContainer props:', this.props);
@@ -15371,20 +15367,15 @@ var generalContainer = function (_React$Component) {
             'div',
             { key: name, className: 'col-lg-3 col-md-3' },
             _react2.default.createElement(GeneralTableBody, {
-              lastUpdate: _this3.props[name + 'LastUpdate'],
-              lastPoll: _this3.props[name + 'LastPoll'],
-              stars: _this3.props[name + 'Stars'],
-              watchers: _this3.props[name + 'Watchers'],
-              forks: _this3.props[name + 'Forks'],
-              issues: _this3.props[name + 'Issues']
+              lastUpdate: _this2.props[name + 'GeneralLastUpdate'],
+              lastPoll: _this2.props[name + 'GeneralLastPoll'],
+              stars: _this2.props[name + 'GeneralStars'],
+              watchers: _this2.props[name + 'GeneralWatchers'],
+              forks: _this2.props[name + 'GeneralForks'],
+              issues: _this2.props[name + 'GeneralIssues']
             })
           );
-        }),
-        _react2.default.createElement(
-          'button',
-          { onClick: this.multiGetStats },
-          'get'
-        )
+        })
       );
     }
   }]);
@@ -15399,18 +15390,21 @@ var mapState = function mapState(state) {
       //capitalize first letter
       var name = prop.charAt(0).toUpperCase() + prop.slice(1);
 
-      obj['' + repo + name] = state.general[repo][prop];
+      obj[repo + 'General' + name] = state.general[repo][prop];
     });
   });
 
   return obj;
 };
 
-var mapDispatch = {
-  fetchStats: _reducerGeneral.fetchStats
-};
+/*
+const mapDispatch = {
+  fetchStats
+}
+*/
 
-exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(generalContainer);
+//export default connect(mapState,mapDispatch)(generalContainer);
+exports.default = (0, _reactRedux.connect)(mapState)(generalContainer);
 
 
 var GeneralTableBody = function GeneralTableBody(props) {
@@ -15549,9 +15543,7 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(34);
-
-var _reducerCommit = __webpack_require__(131);
+var _reactRedux = __webpack_require__(29);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15561,83 +15553,84 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+//import {fetchCommitCount} from '../store/reducer-commit';
+
 var commitContainer = function (_React$Component) {
   _inherits(commitContainer, _React$Component);
 
   function commitContainer() {
     _classCallCheck(this, commitContainer);
 
-    var _this = _possibleConstructorReturn(this, (commitContainer.__proto__ || Object.getPrototypeOf(commitContainer)).call(this));
-
-    _this.getStats = _this.getStats.bind(_this);
-    _this.multiGetStats = _this.multiGetStats.bind(_this);
-    _this.refreshStats = _this.refreshStats.bind(_this);
-    _this.multiRefreshStats = _this.multiRefreshStats.bind(_this);
-    return _this;
-  }
-
-  _createClass(commitContainer, [{
-    key: 'multiGetStats',
-    value: function multiGetStats() {
-      var _this2 = this;
-
-      return this.getStats('react').then(function () {
-        return _this2.getStats('angular');
-      }).then(function () {
-        return _this2.getStats('ember');
-      }).then(function () {
-        return _this2.getStats('vue');
-      }).catch(function (error) {
-        return console.error('multiGetStats:', error);
-      });
-    }
-  }, {
-    key: 'multiRefreshStats',
-    value: function multiRefreshStats() {
-      var _this3 = this;
-
-      this.refreshStats('react').then(function () {
-        return _this3.refreshStats('angular');
-      }).then(function () {
-        return _this3.refreshStats('ember');
-      }).then(function () {
-        return _this3.refreshStats('vue');
-      }).catch(function (error) {
-        return console.error('multiRefreshStats:', error);
-      });
-    }
-  }, {
-    key: 'getStats',
-    value: function getStats(name) {
-      var _this4 = this;
-
-      return this.props.fetchCommitCount(name, 30, this.props[name + 'Etag30']).then(function () {
-        return _this4.props.fetchCommitCount(name, 7, _this4.props[name + 'Etag7']);
-      }).then(function () {
-        return _this4.props.fetchCommitCount(name, 1, _this4.props[name + 'Etag1']);
-      }).catch(function (error) {
-        return console.error('getStats:', error);
-      });
-    }
-  }, {
-    key: 'refreshStats',
-    value: function refreshStats(name) {
-      return this.props.fetchCommitCount(name, 1, this.props[name + 'Etag1'], true);
-    }
+    return _possibleConstructorReturn(this, (commitContainer.__proto__ || Object.getPrototypeOf(commitContainer)).call(this));
 
     /*
-    componentDidMount(){
-      this.timer = setInterval(this.refreshStats,30000);
-    }
-     componentWillUnmount(){
-      clearInterval(this.timer);
-    }
+    this.getStats = this.getStats.bind(this);
+    this.multiGetStats = this.multiGetStats.bind(this);
+    this.refreshStats = this.refreshStats.bind(this);
+    this.multiRefreshStats = this.multiRefreshStats.bind(this);
     */
+  }
 
-  }, {
+  /*
+  multiGetStats(){
+    return this.getStats('react')
+    .then(() => this.getStats('angular'))
+    .then(() => this.getStats('ember'))
+    .then(() => this.getStats('vue'))
+    .catch(error => console.error('multiGetStats:',error));
+  }
+   multiRefreshStats(){
+    this.refreshStats('react')
+    .then(() => this.refreshStats('angular'))
+    .then(() => this.refreshStats('ember'))
+    .then(() => this.refreshStats('vue'))
+    .catch(error => console.error('multiRefreshStats:',error));
+  }
+   getStats(name){
+    return this.props.fetchCommitCount(
+      name,
+      30,
+      this.props[`${name}Etag30`],
+    )
+    .then(() => 
+      this.props.fetchCommitCount(
+        name,
+        7,
+        this.props[`${name}Etag7`],
+      )
+    )
+    .then(() => 
+      this.props.fetchCommitCount(
+        name,
+        1,
+        this.props[`${name}Etag1`],
+      )
+    )
+    .catch(error => console.error('getStats:',error));
+  }
+   refreshStats(name){
+    return this.props.fetchCommitCount(
+      name,
+      1,
+      this.props[`${name}Etag1`],
+      true
+    )
+  }
+  */
+
+  /*
+  componentDidMount(){
+    this.timer = setInterval(this.refreshStats,30000);
+  }
+   componentWillUnmount(){
+    clearInterval(this.timer);
+  }
+  */
+
+  _createClass(commitContainer, [{
     key: 'render',
     value: function render() {
-      var _this5 = this;
+      var _this2 = this;
 
       var tables = ['react', 'angular', 'ember', 'vue'];
       console.log('commitContainer props:', this.props);
@@ -15650,24 +15643,14 @@ var commitContainer = function (_React$Component) {
             'div',
             { key: name, className: 'col-lg-3 col-md-3' },
             _react2.default.createElement(CommitTableBody, {
-              lastUpdate: _this5.props[name + 'LastUpdate'],
-              lastPoll: _this5.props[name + 'LastPoll'],
-              day1: _this5.props[name + 'Day1'],
-              day7: _this5.props[name + 'Day7'],
-              day30: _this5.props[name + 'Day30']
+              lastUpdate: _this2.props[name + 'CommitLastUpdate'],
+              lastPoll: _this2.props[name + 'CommitLastPoll'],
+              day1: _this2.props[name + 'CommitDay1'],
+              day7: _this2.props[name + 'CommitDay7'],
+              day30: _this2.props[name + 'CommitDay30']
             })
           );
-        }),
-        _react2.default.createElement(
-          'button',
-          { onClick: this.multiGetStats },
-          'get'
-        ),
-        _react2.default.createElement(
-          'button',
-          { onClick: this.multiRefreshStats },
-          'refresh'
-        )
+        })
       );
     }
   }]);
@@ -15682,18 +15665,21 @@ var mapState = function mapState(state) {
       //capitalize first letter
       var name = prop.charAt(0).toUpperCase() + prop.slice(1);
 
-      obj['' + repo + name] = state.commit[repo][prop];
+      obj[repo + 'Commit' + name] = state.commit[repo][prop];
     });
   });
 
   return obj;
 };
 
-var mapDispatch = {
-  fetchCommitCount: _reducerCommit.fetchCommitCount
-};
+/*
+const mapDispatch = {
+  fetchCommitCount
+}
+*/
 
-exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(commitContainer);
+//export default connect(mapState,mapDispatch)(commitContainer);
+exports.default = (0, _reactRedux.connect)(mapState)(commitContainer);
 
 
 var CommitTableBody = function CommitTableBody(props) {
@@ -15815,7 +15801,7 @@ var _reactDom = __webpack_require__(156);
 
 var _reactRouter = __webpack_require__(109);
 
-var _reactRedux = __webpack_require__(34);
+var _reactRedux = __webpack_require__(29);
 
 var _store = __webpack_require__(291);
 
@@ -18116,7 +18102,7 @@ module.exports = ARIADOMPropertyConfig;
 
 
 
-var EventPropagators = __webpack_require__(29);
+var EventPropagators = __webpack_require__(30);
 var ExecutionEnvironment = __webpack_require__(7);
 var FallbackCompositionState = __webpack_require__(161);
 var SyntheticCompositionEvent = __webpack_require__(162);
@@ -18688,8 +18674,8 @@ module.exports = SyntheticInputEvent;
 
 
 
-var EventPluginHub = __webpack_require__(30);
-var EventPropagators = __webpack_require__(29);
+var EventPluginHub = __webpack_require__(31);
+var EventPropagators = __webpack_require__(30);
 var ExecutionEnvironment = __webpack_require__(7);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(14);
@@ -19745,7 +19731,7 @@ module.exports = DefaultEventPluginOrder;
 
 
 
-var EventPropagators = __webpack_require__(29);
+var EventPropagators = __webpack_require__(30);
 var ReactDOMComponentTree = __webpack_require__(6);
 var SyntheticMouseEvent = __webpack_require__(39);
 
@@ -20547,7 +20533,7 @@ var DOMLazyTree = __webpack_require__(25);
 var DOMNamespaces = __webpack_require__(53);
 var DOMProperty = __webpack_require__(16);
 var DOMPropertyOperations = __webpack_require__(96);
-var EventPluginHub = __webpack_require__(30);
+var EventPluginHub = __webpack_require__(31);
 var EventPluginRegistry = __webpack_require__(37);
 var ReactBrowserEventEmitter = __webpack_require__(42);
 var ReactDOMComponentFlags = __webpack_require__(84);
@@ -22117,7 +22103,7 @@ module.exports = quoteAttributeValueForBrowser;
 
 
 
-var EventPluginHub = __webpack_require__(30);
+var EventPluginHub = __webpack_require__(31);
 
 function runEventQueueInBatch(events) {
   EventPluginHub.enqueueEvents(events);
@@ -22850,7 +22836,7 @@ module.exports = ReactDOMTextarea;
 var _prodInvariant = __webpack_require__(3);
 
 var ReactComponentEnvironment = __webpack_require__(56);
-var ReactInstanceMap = __webpack_require__(32);
+var ReactInstanceMap = __webpack_require__(33);
 var ReactInstrumentation = __webpack_require__(11);
 
 var ReactCurrentOwner = __webpack_require__(13);
@@ -23465,7 +23451,7 @@ var React = __webpack_require__(22);
 var ReactComponentEnvironment = __webpack_require__(56);
 var ReactCurrentOwner = __webpack_require__(13);
 var ReactErrorUtils = __webpack_require__(48);
-var ReactInstanceMap = __webpack_require__(32);
+var ReactInstanceMap = __webpack_require__(33);
 var ReactInstrumentation = __webpack_require__(11);
 var ReactNodeTypes = __webpack_require__(100);
 var ReactReconciler = __webpack_require__(24);
@@ -25561,7 +25547,7 @@ module.exports = getUnboundedScrollPosition;
 
 
 var DOMProperty = __webpack_require__(16);
-var EventPluginHub = __webpack_require__(30);
+var EventPluginHub = __webpack_require__(31);
 var EventPluginUtils = __webpack_require__(47);
 var ReactComponentEnvironment = __webpack_require__(56);
 var ReactEmptyComponent = __webpack_require__(101);
@@ -26491,7 +26477,7 @@ module.exports = SVGDOMPropertyConfig;
 
 
 
-var EventPropagators = __webpack_require__(29);
+var EventPropagators = __webpack_require__(30);
 var ExecutionEnvironment = __webpack_require__(7);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInputSelection = __webpack_require__(105);
@@ -26688,7 +26674,7 @@ module.exports = SelectEventPlugin;
 var _prodInvariant = __webpack_require__(3);
 
 var EventListener = __webpack_require__(104);
-var EventPropagators = __webpack_require__(29);
+var EventPropagators = __webpack_require__(30);
 var ReactDOMComponentTree = __webpack_require__(6);
 var SyntheticAnimationEvent = __webpack_require__(223);
 var SyntheticClipboardEvent = __webpack_require__(224);
@@ -26699,7 +26685,7 @@ var SyntheticMouseEvent = __webpack_require__(39);
 var SyntheticDragEvent = __webpack_require__(228);
 var SyntheticTouchEvent = __webpack_require__(229);
 var SyntheticTransitionEvent = __webpack_require__(230);
-var SyntheticUIEvent = __webpack_require__(31);
+var SyntheticUIEvent = __webpack_require__(32);
 var SyntheticWheelEvent = __webpack_require__(231);
 
 var emptyFunction = __webpack_require__(10);
@@ -27003,7 +26989,7 @@ module.exports = SyntheticClipboardEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(31);
+var SyntheticUIEvent = __webpack_require__(32);
 
 /**
  * @interface FocusEvent
@@ -27044,7 +27030,7 @@ module.exports = SyntheticFocusEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(31);
+var SyntheticUIEvent = __webpack_require__(32);
 
 var getEventCharCode = __webpack_require__(62);
 var getEventKey = __webpack_require__(227);
@@ -27291,7 +27277,7 @@ module.exports = SyntheticDragEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(31);
+var SyntheticUIEvent = __webpack_require__(32);
 
 var getEventModifierState = __webpack_require__(51);
 
@@ -27631,7 +27617,7 @@ var _prodInvariant = __webpack_require__(3);
 
 var ReactCurrentOwner = __webpack_require__(13);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactInstanceMap = __webpack_require__(32);
+var ReactInstanceMap = __webpack_require__(33);
 
 var getHostComponentFromComposite = __webpack_require__(108);
 var invariant = __webpack_require__(1);
@@ -27986,7 +27972,7 @@ var _createTransitionManager2 = __webpack_require__(110);
 
 var _createTransitionManager3 = _interopRequireDefault(_createTransitionManager2);
 
-var _InternalPropTypes = __webpack_require__(33);
+var _InternalPropTypes = __webpack_require__(34);
 
 var _RouterContext = __webpack_require__(65);
 
@@ -29023,7 +29009,7 @@ var _Redirect = __webpack_require__(115);
 
 var _Redirect2 = _interopRequireDefault(_Redirect);
 
-var _InternalPropTypes = __webpack_require__(33);
+var _InternalPropTypes = __webpack_require__(34);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29092,7 +29078,7 @@ var _invariant2 = _interopRequireDefault(_invariant);
 
 var _RouteUtils = __webpack_require__(17);
 
-var _InternalPropTypes = __webpack_require__(33);
+var _InternalPropTypes = __webpack_require__(34);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29156,7 +29142,7 @@ var _invariant2 = _interopRequireDefault(_invariant);
 
 var _RouteUtils = __webpack_require__(17);
 
-var _InternalPropTypes = __webpack_require__(33);
+var _InternalPropTypes = __webpack_require__(34);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32482,6 +32468,12 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(29);
+
+var _reducerGeneral = __webpack_require__(137);
+
+var _reducerCommit = __webpack_require__(131);
+
 var _Navbar = __webpack_require__(314);
 
 var _Navbar2 = _interopRequireDefault(_Navbar);
@@ -32503,7 +32495,84 @@ var appContainer = function (_React$Component) {
     return _possibleConstructorReturn(this, (appContainer.__proto__ || Object.getPrototypeOf(appContainer)).call(this));
   }
 
+  // GeneralContainer
+
+
   _createClass(appContainer, [{
+    key: 'multiGetStats',
+    value: function multiGetStats() {
+      var _this2 = this;
+
+      return this.getStats('react').then(function () {
+        return _this2.getStats('angular');
+      }).then(function () {
+        return _this2.getStats('ember');
+      }).then(function () {
+        return _this2.getStats('vue');
+      }).catch(function (error) {
+        return console.error('multiGetStats:', error);
+      });
+    }
+  }, {
+    key: 'getStats',
+    value: function getStats(name) {
+      return this.props.fetchStats(name, this.props[name + 'Etag']);
+    }
+    // GeneralContainer - END
+
+    // CommitContainer
+
+  }, {
+    key: 'multiGetStats',
+    value: function multiGetStats() {
+      var _this3 = this;
+
+      return this.getStats('react').then(function () {
+        return _this3.getStats('angular');
+      }).then(function () {
+        return _this3.getStats('ember');
+      }).then(function () {
+        return _this3.getStats('vue');
+      }).catch(function (error) {
+        return console.error('multiGetStats:', error);
+      });
+    }
+  }, {
+    key: 'multiRefreshStats',
+    value: function multiRefreshStats() {
+      var _this4 = this;
+
+      this.refreshStats('react').then(function () {
+        return _this4.refreshStats('angular');
+      }).then(function () {
+        return _this4.refreshStats('ember');
+      }).then(function () {
+        return _this4.refreshStats('vue');
+      }).catch(function (error) {
+        return console.error('multiRefreshStats:', error);
+      });
+    }
+  }, {
+    key: 'getStats',
+    value: function getStats(name) {
+      var _this5 = this;
+
+      return this.props.fetchCommitCount(name, 30, this.props[name + 'Etag30']).then(function () {
+        return _this5.props.fetchCommitCount(name, 7, _this5.props[name + 'Etag7']);
+      }).then(function () {
+        return _this5.props.fetchCommitCount(name, 1, _this5.props[name + 'Etag1']);
+      }).catch(function (error) {
+        return console.error('getStats:', error);
+      });
+    }
+  }, {
+    key: 'refreshStats',
+    value: function refreshStats(name) {
+      return this.props.fetchCommitCount(name, 1, this.props[name + 'Etag1'], true);
+    }
+    // CommitContainer - END
+
+  }, {
     key: 'render',
     value: function render() {
 
@@ -32524,7 +32593,12 @@ var appContainer = function (_React$Component) {
   return appContainer;
 }(_react2.default.Component);
 
-exports.default = appContainer;
+var mapDispatch = {
+  fetchStats: _reducerGeneral.fetchStats,
+  fetchCommitCount: _reducerCommit.fetchCommitCount
+};
+
+exports.default = (0, _reactRedux.connect)(null, mapDispatch)(appContainer);
 
 /***/ }),
 /* 314 */
@@ -32543,7 +32617,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = __webpack_require__(109);
 
-var _reactRedux = __webpack_require__(34);
+var _reactRedux = __webpack_require__(29);
 
 var _reducerControl = __webpack_require__(138);
 
@@ -32665,7 +32739,7 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(34);
+var _reactRedux = __webpack_require__(29);
 
 var _GeneralContainer = __webpack_require__(139);
 

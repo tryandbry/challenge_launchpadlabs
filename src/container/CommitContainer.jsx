@@ -1,17 +1,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {fetchCommitCount} from '../store/reducer-commit';
+//import {fetchCommitCount} from '../store/reducer-commit';
 
 class commitContainer extends React.Component {
   constructor(){
     super();
 
+    /*
     this.getStats = this.getStats.bind(this);
     this.multiGetStats = this.multiGetStats.bind(this);
     this.refreshStats = this.refreshStats.bind(this);
     this.multiRefreshStats = this.multiRefreshStats.bind(this);
+    */
   }
 
+  /*
   multiGetStats(){
     return this.getStats('react')
     .then(() => this.getStats('angular'))
@@ -59,6 +62,7 @@ class commitContainer extends React.Component {
       true
     )
   }
+  */
 
   /*
   componentDidMount(){
@@ -79,16 +83,16 @@ class commitContainer extends React.Component {
         {tables.map(name =>
           <div key={name} className="col-lg-3 col-md-3">
             <CommitTableBody
-              lastUpdate={this.props[`${name}LastUpdate`]}
-              lastPoll={this.props[`${name}LastPoll`]}
-              day1={this.props[`${name}Day1`]}
-              day7={this.props[`${name}Day7`]}
-              day30={this.props[`${name}Day30`]}
+              lastUpdate={this.props[`${name}CommitLastUpdate`]}
+              lastPoll={this.props[`${name}CommitLastPoll`]}
+              day1={this.props[`${name}CommitDay1`]}
+              day7={this.props[`${name}CommitDay7`]}
+              day30={this.props[`${name}CommitDay30`]}
             />
           </div>
         )}
-        <button onClick={this.multiGetStats}>get</button>
-        <button onClick={this.multiRefreshStats}>refresh</button>
+        {/*<button onClick={this.multiGetStats}>get</button>
+        <button onClick={this.multiRefreshStats}>refresh</button>*/}
       </div>
     );
   }
@@ -101,18 +105,21 @@ const mapState = (state) => {
       //capitalize first letter
       let name = prop.charAt(0).toUpperCase() + prop.slice(1);
 
-      obj[`${repo}${name}`] = state.commit[repo][prop];
+      obj[`${repo}Commit${name}`] = state.commit[repo][prop];
     });
   });
 
   return obj;
 }
 
+/*
 const mapDispatch = {
   fetchCommitCount
 }
+*/
 
-export default connect(mapState,mapDispatch)(commitContainer);
+//export default connect(mapState,mapDispatch)(commitContainer);
+export default connect(mapState)(commitContainer);
 
 const CommitTableBody = (props) => {
   const lastUpdate = props.lastUpdate;
