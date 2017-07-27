@@ -184,7 +184,8 @@ export const fetchCommitCount = (name,day,etag='',increment=false) => {
 //DISPATCHERS - END
 
 //VALIDATORS
-const invalidDay = (day) => {
+//exported for testing only
+export const invalidDay = (day) => {
   if(!String(day).match(/(^1$)|(^7$)|(^30$)/)){
     console.error('validatateDay: day must equal 1 | 7 | 30');
     return true;
@@ -192,7 +193,8 @@ const invalidDay = (day) => {
   return false;
 }
 
-const invalidRepoName = (name) => {
+//exported for testing only
+export const invalidRepoName = (name) => {
   if(!name.match(/(^react$)|(^angular$)|(^ember$)|(^vue$)/)){
     console.error('fetchCommitCount ERROR: name must equal ' +
                 'react | angular | ember | vue');
@@ -210,12 +212,14 @@ const printNum = (n,offset) => {
   return num < 10 ? `0${num}` : String(num);
 }
 
-const parsePageHeader = (linkStr) => {
+//exported for testing only
+export const parsePageHeader = (linkStr) => {
   let arr = linkStr.split(';');
   return +arr[1].match(/&page=[0-9]+/)[0].slice(6);
 }
 
-const getDate = (day) => {
+//exported for testing only
+export const getDate = (day) => {
   let a = new Date();
   a.setDate(a.getDate()-day);
 

@@ -14437,7 +14437,7 @@ function verifyPlainObject(value, displayName, methodName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchCommitCount = undefined;
+exports.getDate = exports.parsePageHeader = exports.invalidRepoName = exports.invalidDay = exports.fetchCommitCount = undefined;
 
 var _axios = __webpack_require__(45);
 
@@ -14633,7 +14633,8 @@ var fetchCommitCount = exports.fetchCommitCount = function fetchCommitCount(name
 //DISPATCHERS - END
 
 //VALIDATORS
-var invalidDay = function invalidDay(day) {
+//exported for testing only
+var invalidDay = exports.invalidDay = function invalidDay(day) {
   if (!String(day).match(/(^1$)|(^7$)|(^30$)/)) {
     console.error('validatateDay: day must equal 1 | 7 | 30');
     return true;
@@ -14641,7 +14642,8 @@ var invalidDay = function invalidDay(day) {
   return false;
 };
 
-var invalidRepoName = function invalidRepoName(name) {
+//exported for testing only
+var invalidRepoName = exports.invalidRepoName = function invalidRepoName(name) {
   if (!name.match(/(^react$)|(^angular$)|(^ember$)|(^vue$)/)) {
     console.error('fetchCommitCount ERROR: name must equal ' + 'react | angular | ember | vue');
     return true;
@@ -14658,12 +14660,14 @@ var printNum = function printNum(n, offset) {
   return num < 10 ? '0' + num : String(num);
 };
 
-var parsePageHeader = function parsePageHeader(linkStr) {
+//exported for testing only
+var parsePageHeader = exports.parsePageHeader = function parsePageHeader(linkStr) {
   var arr = linkStr.split(';');
   return +arr[1].match(/&page=[0-9]+/)[0].slice(6);
 };
 
-var getDate = function getDate(day) {
+//exported for testing only
+var getDate = exports.getDate = function getDate(day) {
   var a = new Date();
   a.setDate(a.getDate() - day);
 
