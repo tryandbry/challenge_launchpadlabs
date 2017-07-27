@@ -1,47 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
-//import {fetchStats} from '../store/reducer-general';
 
 class generalContainer extends React.Component {
   constructor(){
     super();
-
-    /*
-    this.getStats = this.getStats.bind(this);
-    this.multiGetStats = this.multiGetStats.bind(this);
-    */
   }
 
-  /*
-  multiGetStats(){
-    return this.getStats('react')
-    .then(() => this.getStats('angular'))
-    .then(() => this.getStats('ember'))
-    .then(() => this.getStats('vue'))
-    .catch(error => console.error('multiGetStats:',error));
-  }
-
-  getStats(name){
-    return this.props.fetchStats(
-      name,
-      this.props[`${name}Etag`],
-    );
-  }
-  */
-
-  /*
-  componentDidMount(){
-    this.timer = setInterval(this.refreshStats,30000);
-  }
-
-  componentWillUnmount(){
-    clearInterval(this.timer);
-  }
-  */
-  
   render(){
     const tables = ['react','angular','ember','vue'];
-    console.log('generalContainer props:',this.props);
 
     return (
       <div className="row">
@@ -57,7 +23,6 @@ class generalContainer extends React.Component {
             />
           </div>
         )}
-        {/*<button onClick={this.multiGetStats}>get</button>*/}
       </div>
     );
   }
@@ -77,13 +42,6 @@ const mapState = (state) => {
   return obj;
 }
 
-/*
-const mapDispatch = {
-  fetchStats
-}
-*/
-
-//export default connect(mapState,mapDispatch)(generalContainer);
 export default connect(mapState)(generalContainer);
 
 const GeneralTableBody = (props) => {

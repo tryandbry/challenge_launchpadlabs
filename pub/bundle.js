@@ -15310,8 +15310,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-//import {fetchStats} from '../store/reducer-general';
-
 var generalContainer = function (_React$Component) {
   _inherits(generalContainer, _React$Component);
 
@@ -15319,37 +15317,7 @@ var generalContainer = function (_React$Component) {
     _classCallCheck(this, generalContainer);
 
     return _possibleConstructorReturn(this, (generalContainer.__proto__ || Object.getPrototypeOf(generalContainer)).call(this));
-
-    /*
-    this.getStats = this.getStats.bind(this);
-    this.multiGetStats = this.multiGetStats.bind(this);
-    */
   }
-
-  /*
-  multiGetStats(){
-    return this.getStats('react')
-    .then(() => this.getStats('angular'))
-    .then(() => this.getStats('ember'))
-    .then(() => this.getStats('vue'))
-    .catch(error => console.error('multiGetStats:',error));
-  }
-   getStats(name){
-    return this.props.fetchStats(
-      name,
-      this.props[`${name}Etag`],
-    );
-  }
-  */
-
-  /*
-  componentDidMount(){
-    this.timer = setInterval(this.refreshStats,30000);
-  }
-   componentWillUnmount(){
-    clearInterval(this.timer);
-  }
-  */
 
   _createClass(generalContainer, [{
     key: 'render',
@@ -15357,7 +15325,6 @@ var generalContainer = function (_React$Component) {
       var _this2 = this;
 
       var tables = ['react', 'angular', 'ember', 'vue'];
-      console.log('generalContainer props:', this.props);
 
       return _react2.default.createElement(
         'div',
@@ -15397,13 +15364,6 @@ var mapState = function mapState(state) {
   return obj;
 };
 
-/*
-const mapDispatch = {
-  fetchStats
-}
-*/
-
-//export default connect(mapState,mapDispatch)(generalContainer);
 exports.default = (0, _reactRedux.connect)(mapState)(generalContainer);
 
 
@@ -15553,8 +15513,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-//import {fetchCommitCount} from '../store/reducer-commit';
-
 var commitContainer = function (_React$Component) {
   _inherits(commitContainer, _React$Component);
 
@@ -15562,70 +15520,7 @@ var commitContainer = function (_React$Component) {
     _classCallCheck(this, commitContainer);
 
     return _possibleConstructorReturn(this, (commitContainer.__proto__ || Object.getPrototypeOf(commitContainer)).call(this));
-
-    /*
-    this.getStats = this.getStats.bind(this);
-    this.multiGetStats = this.multiGetStats.bind(this);
-    this.refreshStats = this.refreshStats.bind(this);
-    this.multiRefreshStats = this.multiRefreshStats.bind(this);
-    */
   }
-
-  /*
-  multiGetStats(){
-    return this.getStats('react')
-    .then(() => this.getStats('angular'))
-    .then(() => this.getStats('ember'))
-    .then(() => this.getStats('vue'))
-    .catch(error => console.error('multiGetStats:',error));
-  }
-   multiRefreshStats(){
-    this.refreshStats('react')
-    .then(() => this.refreshStats('angular'))
-    .then(() => this.refreshStats('ember'))
-    .then(() => this.refreshStats('vue'))
-    .catch(error => console.error('multiRefreshStats:',error));
-  }
-   getStats(name){
-    return this.props.fetchCommitCount(
-      name,
-      30,
-      this.props[`${name}Etag30`],
-    )
-    .then(() => 
-      this.props.fetchCommitCount(
-        name,
-        7,
-        this.props[`${name}Etag7`],
-      )
-    )
-    .then(() => 
-      this.props.fetchCommitCount(
-        name,
-        1,
-        this.props[`${name}Etag1`],
-      )
-    )
-    .catch(error => console.error('getStats:',error));
-  }
-   refreshStats(name){
-    return this.props.fetchCommitCount(
-      name,
-      1,
-      this.props[`${name}Etag1`],
-      true
-    )
-  }
-  */
-
-  /*
-  componentDidMount(){
-    this.timer = setInterval(this.refreshStats,30000);
-  }
-   componentWillUnmount(){
-    clearInterval(this.timer);
-  }
-  */
 
   _createClass(commitContainer, [{
     key: 'render',
@@ -15633,7 +15528,7 @@ var commitContainer = function (_React$Component) {
       var _this2 = this;
 
       var tables = ['react', 'angular', 'ember', 'vue'];
-      console.log('commitContainer props:', this.props);
+      //console.log('commitContainer props:',this.props);
 
       return _react2.default.createElement(
         'div',
@@ -15672,13 +15567,6 @@ var mapState = function mapState(state) {
   return obj;
 };
 
-/*
-const mapDispatch = {
-  fetchCommitCount
-}
-*/
-
-//export default connect(mapState,mapDispatch)(commitContainer);
 exports.default = (0, _reactRedux.connect)(mapState)(commitContainer);
 
 
@@ -32501,38 +32389,32 @@ var appContainer = function (_React$Component) {
     _this.multiRefreshCommitStats = _this.multiRefreshCommitStats.bind(_this);
     _this.getCommitStats = _this.getCommitStats.bind(_this);
     _this.refreshCommitStats = _this.refreshCommitStats.bind(_this);
-    //this.refresh = this.refresh.bind(this);
     return _this;
   }
 
   /*
-  refresh(){
-    //this.getGeneralStats('react');
-    //this.multiGetGeneralStats();
-    //this.refreshCommitStats('react');
-    //this.getCommitStats('react');
+  componentDidMount(){
+    this.multiGetGeneralStats();
+    this.multiGetCommitStats();
+     this.generalTimer = setInterval(
+      this.multiGetGeneralStats,
+      29000
+    );
+    this.commitTimer = setInterval(
+      this.multiRefreshCommitStats,
+      37000
+    );
+  }
+   componentWillUnmount(){
+    clearInterval(this.generalTimer);
+    clearInterval(this.commitTimer);
   }
   */
 
+  // GeneralContainer
+
+
   _createClass(appContainer, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.multiGetGeneralStats();
-      this.multiGetCommitStats();
-
-      this.generalTimer = setInterval(this.multiGetGeneralStats, 29000);
-      this.commitTimer = setInterval(this.multiRefreshCommitStats, 37000);
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      clearInterval(this.generalTimer);
-      clearInterval(this.commitTimer);
-    }
-
-    // GeneralContainer
-
-  }, {
     key: 'multiGetGeneralStats',
     value: function multiGetGeneralStats() {
       var _this2 = this;
@@ -32550,12 +32432,6 @@ var appContainer = function (_React$Component) {
   }, {
     key: 'getGeneralStats',
     value: function getGeneralStats(name) {
-      /*
-      console.log(
-        'getGeneralStats etag:',
-        this.props[`${name}GeneralEtag`]
-      );
-      */
       return this.props.fetchStats(name, this.props[name + 'GeneralEtag']);
     }
     // GeneralContainer - END
@@ -32608,12 +32484,6 @@ var appContainer = function (_React$Component) {
   }, {
     key: 'refreshCommitStats',
     value: function refreshCommitStats(name) {
-      /*
-      console.log(
-        'refreshCommitStats etag:',
-        this.props[`${name}CommitEtag1`]
-      );
-      */
       return this.props.fetchCommitCount(name, 1, this.props[name + 'CommitEtag1'], true);
     }
     // CommitContainer - END
@@ -32621,7 +32491,7 @@ var appContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log('appContainer props:', this.props);
+      //console.log('appContainer props:',this.props);
 
       return _react2.default.createElement(
         'div',
@@ -32629,7 +32499,9 @@ var appContainer = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'container' },
-          _react2.default.createElement(_Navbar2.default, null),
+          _react2.default.createElement(_Navbar2.default, {
+            pathname: this.props.location.pathname
+          }),
           _react2.default.createElement('div', { id: 'offset' }),
           this.props.children
         )
@@ -32693,6 +32565,8 @@ var Navbar = function Navbar(props) {
   var toggleCommit = props.toggleCommit;
   var toggleReset = props.toggleReset;
 
+  var pathname = props.pathname;
+
   return _react2.default.createElement(
     'nav',
     { className: 'navbar navbar-inverse navbar-fixed-top' },
@@ -32733,13 +32607,38 @@ var Navbar = function Navbar(props) {
         _react2.default.createElement(
           'ul',
           { className: 'nav navbar-nav' },
-          _react2.default.createElement(
+          pathname === '/' ? _react2.default.createElement(
             'li',
             { className: 'active' },
             _react2.default.createElement(
               _reactRouter.Link,
               { to: '/' },
               'Home'
+            )
+          ) : _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/' },
+              'Home'
+            )
+          ),
+          pathname === '/detail' ? _react2.default.createElement(
+            'li',
+            { className: 'active' },
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/detail' },
+              'Watchers'
+            )
+          ) : _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/detail' },
+              'Watchers'
             )
           )
         ),
