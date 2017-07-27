@@ -32492,30 +32492,43 @@ var appContainer = function (_React$Component) {
   function appContainer() {
     _classCallCheck(this, appContainer);
 
-    return _possibleConstructorReturn(this, (appContainer.__proto__ || Object.getPrototypeOf(appContainer)).call(this));
+    var _this = _possibleConstructorReturn(this, (appContainer.__proto__ || Object.getPrototypeOf(appContainer)).call(this));
+
+    _this.multiGetGeneralStats = _this.multiGetGeneralStats.bind(_this);
+    _this.getGeneralStats = _this.getGeneralStats.bind(_this);
+    _this.multiGetCommitStats = _this.multiGetCommitStats.bind(_this);
+    _this.multiRefreshCommitStats = _this.multiRefreshCommitStats.bind(_this);
+    _this.getCommitStats = _this.getCommitStats.bind(_this);
+    _this.refreshCommitStats = _this.refreshCommitStats.bind(_this);
+    return _this;
   }
 
-  // GeneralContainer
-
-
   _createClass(appContainer, [{
-    key: 'multiGetStats',
-    value: function multiGetStats() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.multiGetGeneralStats();
+    }
+
+    // GeneralContainer
+
+  }, {
+    key: 'multiGetGeneralStats',
+    value: function multiGetGeneralStats() {
       var _this2 = this;
 
-      return this.getStats('react').then(function () {
-        return _this2.getStats('angular');
+      return this.getGeneralStats('react').then(function () {
+        return _this2.getGeneralStats('angular');
       }).then(function () {
-        return _this2.getStats('ember');
+        return _this2.getGeneralStats('ember');
       }).then(function () {
-        return _this2.getStats('vue');
+        return _this2.getGeneralStats('vue');
       }).catch(function (error) {
-        return console.error('multiGetStats:', error);
+        return console.error('multiGetGeneralStats:', error);
       });
     }
   }, {
-    key: 'getStats',
-    value: function getStats(name) {
+    key: 'getGeneralStats',
+    value: function getGeneralStats(name) {
       return this.props.fetchStats(name, this.props[name + 'Etag']);
     }
     // GeneralContainer - END
@@ -32523,38 +32536,38 @@ var appContainer = function (_React$Component) {
     // CommitContainer
 
   }, {
-    key: 'multiGetStats',
-    value: function multiGetStats() {
+    key: 'multiGetCommitStats',
+    value: function multiGetCommitStats() {
       var _this3 = this;
 
-      return this.getStats('react').then(function () {
-        return _this3.getStats('angular');
+      return this.getCommitStats('react').then(function () {
+        return _this3.getCommitStats('angular');
       }).then(function () {
-        return _this3.getStats('ember');
+        return _this3.getCommitStats('ember');
       }).then(function () {
-        return _this3.getStats('vue');
+        return _this3.getCommitStats('vue');
       }).catch(function (error) {
-        return console.error('multiGetStats:', error);
+        return console.error('multiGetCommitStats:', error);
       });
     }
   }, {
-    key: 'multiRefreshStats',
-    value: function multiRefreshStats() {
+    key: 'multiRefreshCommitStats',
+    value: function multiRefreshCommitStats() {
       var _this4 = this;
 
-      this.refreshStats('react').then(function () {
-        return _this4.refreshStats('angular');
+      this.refreshCommitStats('react').then(function () {
+        return _this4.refreshCommitStats('angular');
       }).then(function () {
-        return _this4.refreshStats('ember');
+        return _this4.refreshCommitStats('ember');
       }).then(function () {
-        return _this4.refreshStats('vue');
+        return _this4.refreshCommitStats('vue');
       }).catch(function (error) {
-        return console.error('multiRefreshStats:', error);
+        return console.error('multiRefreshCommitStats:', error);
       });
     }
   }, {
-    key: 'getStats',
-    value: function getStats(name) {
+    key: 'getCommitStats',
+    value: function getCommitStats(name) {
       var _this5 = this;
 
       return this.props.fetchCommitCount(name, 30, this.props[name + 'Etag30']).then(function () {
@@ -32562,12 +32575,12 @@ var appContainer = function (_React$Component) {
       }).then(function () {
         return _this5.props.fetchCommitCount(name, 1, _this5.props[name + 'Etag1']);
       }).catch(function (error) {
-        return console.error('getStats:', error);
+        return console.error('getCommitStats:', error);
       });
     }
   }, {
-    key: 'refreshStats',
-    value: function refreshStats(name) {
+    key: 'refreshCommitStats',
+    value: function refreshCommitStats(name) {
       return this.props.fetchCommitCount(name, 1, this.props[name + 'Etag1'], true);
     }
     // CommitContainer - END

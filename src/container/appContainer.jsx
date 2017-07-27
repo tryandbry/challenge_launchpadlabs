@@ -9,18 +9,29 @@ import Navbar from '../component/Navbar';
 class appContainer extends React.Component {
   constructor(){
     super();
+
+    this.multiGetGeneralStats = this.multiGetGeneralStats.bind(this);
+    this.getGeneralStats = this.getGeneralStats.bind(this);
+    this.multiGetCommitStats = this.multiGetCommitStats.bind(this);
+    this.multiRefreshCommitStats = this.multiRefreshCommitStats.bind(this);
+    this.getCommitStats = this.getCommitStats.bind(this);
+    this.refreshCommitStats = this.refreshCommitStats.bind(this);
+  }
+
+  componentDidMount(){
+    this.multiGetGeneralStats();
   }
 
   // GeneralContainer
-  multiGetStats(){
-    return this.getStats('react')
-    .then(() => this.getStats('angular'))
-    .then(() => this.getStats('ember'))
-    .then(() => this.getStats('vue'))
-    .catch(error => console.error('multiGetStats:',error));
+  multiGetGeneralStats(){
+    return this.getGeneralStats('react')
+    .then(() => this.getGeneralStats('angular'))
+    .then(() => this.getGeneralStats('ember'))
+    .then(() => this.getGeneralStats('vue'))
+    .catch(error => console.error('multiGetGeneralStats:',error));
   }
 
-  getStats(name){
+  getGeneralStats(name){
     return this.props.fetchStats(
       name,
       this.props[`${name}Etag`],
@@ -29,23 +40,23 @@ class appContainer extends React.Component {
   // GeneralContainer - END
 
   // CommitContainer
-  multiGetStats(){
-    return this.getStats('react')
-    .then(() => this.getStats('angular'))
-    .then(() => this.getStats('ember'))
-    .then(() => this.getStats('vue'))
-    .catch(error => console.error('multiGetStats:',error));
+  multiGetCommitStats(){
+    return this.getCommitStats('react')
+    .then(() => this.getCommitStats('angular'))
+    .then(() => this.getCommitStats('ember'))
+    .then(() => this.getCommitStats('vue'))
+    .catch(error => console.error('multiGetCommitStats:',error));
   }
 
-  multiRefreshStats(){
-    this.refreshStats('react')
-    .then(() => this.refreshStats('angular'))
-    .then(() => this.refreshStats('ember'))
-    .then(() => this.refreshStats('vue'))
-    .catch(error => console.error('multiRefreshStats:',error));
+  multiRefreshCommitStats(){
+    this.refreshCommitStats('react')
+    .then(() => this.refreshCommitStats('angular'))
+    .then(() => this.refreshCommitStats('ember'))
+    .then(() => this.refreshCommitStats('vue'))
+    .catch(error => console.error('multiRefreshCommitStats:',error));
   }
 
-  getStats(name){
+  getCommitStats(name){
     return this.props.fetchCommitCount(
       name,
       30,
@@ -65,10 +76,10 @@ class appContainer extends React.Component {
         this.props[`${name}Etag1`],
       )
     )
-    .catch(error => console.error('getStats:',error));
+    .catch(error => console.error('getCommitStats:',error));
   }
 
-  refreshStats(name){
+  refreshCommitStats(name){
     return this.props.fetchCommitCount(
       name,
       1,
