@@ -32392,29 +32392,25 @@ var appContainer = function (_React$Component) {
     return _this;
   }
 
-  /*
-  componentDidMount(){
-    this.multiGetGeneralStats();
-    this.multiGetCommitStats();
-     this.generalTimer = setInterval(
-      this.multiGetGeneralStats,
-      29000
-    );
-    this.commitTimer = setInterval(
-      this.multiRefreshCommitStats,
-      37000
-    );
-  }
-   componentWillUnmount(){
-    clearInterval(this.generalTimer);
-    clearInterval(this.commitTimer);
-  }
-  */
-
-  // GeneralContainer
-
-
   _createClass(appContainer, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.multiGetGeneralStats();
+      this.multiGetCommitStats();
+
+      this.generalTimer = setInterval(this.multiGetGeneralStats, 29000);
+      this.commitTimer = setInterval(this.multiRefreshCommitStats, 37000);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      clearInterval(this.generalTimer);
+      clearInterval(this.commitTimer);
+    }
+
+    // GeneralContainer
+
+  }, {
     key: 'multiGetGeneralStats',
     value: function multiGetGeneralStats() {
       var _this2 = this;

@@ -18,7 +18,6 @@ class appContainer extends React.Component {
     this.refreshCommitStats = this.refreshCommitStats.bind(this);
   }
 
-  /*
   componentDidMount(){
     this.multiGetGeneralStats();
     this.multiGetCommitStats();
@@ -37,7 +36,6 @@ class appContainer extends React.Component {
     clearInterval(this.generalTimer);
     clearInterval(this.commitTimer);
   }
-  */
 
   // GeneralContainer
   multiGetGeneralStats(){
