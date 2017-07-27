@@ -48,12 +48,12 @@ class generalContainer extends React.Component {
         {tables.map(name =>
           <div key={name} className="col-lg-3 col-md-3">
             <GeneralTableBody
-              lastUpdate={this.props[`${name}GeneralLastUpdate`]}
-              lastPoll={this.props[`${name}GeneralLastPoll`]}
-              stars={this.props[`${name}GeneralStars`]}
-              watchers={this.props[`${name}GeneralWatchers`]}
-              forks={this.props[`${name}GeneralForks`]}
-              issues={this.props[`${name}GeneralIssues`]}
+              lastUpdate={this.props[`${name}LastUpdate`]}
+              lastPoll={this.props[`${name}LastPoll`]}
+              stars={this.props[`${name}Stars`]}
+              watchers={this.props[`${name}Watchers`]}
+              forks={this.props[`${name}Forks`]}
+              issues={this.props[`${name}Issues`]}
             />
           </div>
         )}
@@ -70,7 +70,7 @@ const mapState = (state) => {
       //capitalize first letter
       let name = prop.charAt(0).toUpperCase() + prop.slice(1);
 
-      obj[`${repo}General${name}`] = state.general[repo][prop];
+      obj[`${repo}${name}`] = state.general[repo][prop];
     });
   });
 

@@ -83,11 +83,11 @@ class commitContainer extends React.Component {
         {tables.map(name =>
           <div key={name} className="col-lg-3 col-md-3">
             <CommitTableBody
-              lastUpdate={this.props[`${name}CommitLastUpdate`]}
-              lastPoll={this.props[`${name}CommitLastPoll`]}
-              day1={this.props[`${name}CommitDay1`]}
-              day7={this.props[`${name}CommitDay7`]}
-              day30={this.props[`${name}CommitDay30`]}
+              lastUpdate={this.props[`${name}LastUpdate`]}
+              lastPoll={this.props[`${name}LastPoll`]}
+              day1={this.props[`${name}Day1`]}
+              day7={this.props[`${name}Day7`]}
+              day30={this.props[`${name}Day30`]}
             />
           </div>
         )}
@@ -105,7 +105,7 @@ const mapState = (state) => {
       //capitalize first letter
       let name = prop.charAt(0).toUpperCase() + prop.slice(1);
 
-      obj[`${repo}Commit${name}`] = state.commit[repo][prop];
+      obj[`${repo}${name}`] = state.commit[repo][prop];
     });
   });
 

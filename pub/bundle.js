@@ -15367,12 +15367,12 @@ var generalContainer = function (_React$Component) {
             'div',
             { key: name, className: 'col-lg-3 col-md-3' },
             _react2.default.createElement(GeneralTableBody, {
-              lastUpdate: _this2.props[name + 'GeneralLastUpdate'],
-              lastPoll: _this2.props[name + 'GeneralLastPoll'],
-              stars: _this2.props[name + 'GeneralStars'],
-              watchers: _this2.props[name + 'GeneralWatchers'],
-              forks: _this2.props[name + 'GeneralForks'],
-              issues: _this2.props[name + 'GeneralIssues']
+              lastUpdate: _this2.props[name + 'LastUpdate'],
+              lastPoll: _this2.props[name + 'LastPoll'],
+              stars: _this2.props[name + 'Stars'],
+              watchers: _this2.props[name + 'Watchers'],
+              forks: _this2.props[name + 'Forks'],
+              issues: _this2.props[name + 'Issues']
             })
           );
         })
@@ -15390,7 +15390,7 @@ var mapState = function mapState(state) {
       //capitalize first letter
       var name = prop.charAt(0).toUpperCase() + prop.slice(1);
 
-      obj[repo + 'General' + name] = state.general[repo][prop];
+      obj['' + repo + name] = state.general[repo][prop];
     });
   });
 
@@ -15643,11 +15643,11 @@ var commitContainer = function (_React$Component) {
             'div',
             { key: name, className: 'col-lg-3 col-md-3' },
             _react2.default.createElement(CommitTableBody, {
-              lastUpdate: _this2.props[name + 'CommitLastUpdate'],
-              lastPoll: _this2.props[name + 'CommitLastPoll'],
-              day1: _this2.props[name + 'CommitDay1'],
-              day7: _this2.props[name + 'CommitDay7'],
-              day30: _this2.props[name + 'CommitDay30']
+              lastUpdate: _this2.props[name + 'LastUpdate'],
+              lastPoll: _this2.props[name + 'LastPoll'],
+              day1: _this2.props[name + 'Day1'],
+              day7: _this2.props[name + 'Day7'],
+              day30: _this2.props[name + 'Day30']
             })
           );
         })
@@ -15665,7 +15665,7 @@ var mapState = function mapState(state) {
       //capitalize first letter
       var name = prop.charAt(0).toUpperCase() + prop.slice(1);
 
-      obj[repo + 'Commit' + name] = state.commit[repo][prop];
+      obj['' + repo + name] = state.commit[repo][prop];
     });
   });
 
@@ -32507,7 +32507,27 @@ var appContainer = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.multiGetGeneralStats();
+      //this.multiGetCommitStats();
+
+      setTimeout(this.multiGetGeneralStats, 29000);
+      /*
+      this.generalTimer = setInterval(
+        this.multiGetGeneralStats,
+        29000
+      );
+      this.commitTimer = setInterval(
+        this.refreshCommitStats,
+        37000
+      );
+      */
     }
+
+    /*
+    componentWillUnmount(){
+      clearInterval(this.generalTimer);
+      clearInterval(this.commitTimer);
+    }
+    */
 
     // GeneralContainer
 
@@ -32529,7 +32549,8 @@ var appContainer = function (_React$Component) {
   }, {
     key: 'getGeneralStats',
     value: function getGeneralStats(name) {
-      return this.props.fetchStats(name, this.props[name + 'Etag']);
+      console.log('getGeneralStats etag:', this.props[name + 'GeneralEtag']);
+      return this.props.fetchStats(name, this.props[name + 'GeneralEtag']);
     }
     // GeneralContainer - END
 
@@ -32570,10 +32591,10 @@ var appContainer = function (_React$Component) {
     value: function getCommitStats(name) {
       var _this5 = this;
 
-      return this.props.fetchCommitCount(name, 30, this.props[name + 'Etag30']).then(function () {
-        return _this5.props.fetchCommitCount(name, 7, _this5.props[name + 'Etag7']);
+      return this.props.fetchCommitCount(name, 30, this.props[name + 'CommitEtag30']).then(function () {
+        return _this5.props.fetchCommitCount(name, 7, _this5.props[name + 'CommitEtag7']);
       }).then(function () {
-        return _this5.props.fetchCommitCount(name, 1, _this5.props[name + 'Etag1']);
+        return _this5.props.fetchCommitCount(name, 1, _this5.props[name + 'CommitEtag1']);
       }).catch(function (error) {
         return console.error('getCommitStats:', error);
       });
@@ -32581,7 +32602,7 @@ var appContainer = function (_React$Component) {
   }, {
     key: 'refreshCommitStats',
     value: function refreshCommitStats(name) {
-      return this.props.fetchCommitCount(name, 1, this.props[name + 'Etag1'], true);
+      return this.props.fetchCommitCount(name, 1, this.props[name + 'CommitEtag1'], true);
     }
     // CommitContainer - END
 
@@ -32605,6 +32626,24 @@ var appContainer = function (_React$Component) {
 
   return appContainer;
 }(_react2.default.Component);
+
+var mapState = function mapState(state) {
+  var obj = {};
+
+  //map general etags
+  Object.keys(state.general).forEach(function (repo) {
+    obj[repo + 'GeneralEtag'] = state.general[repo].etag;
+  });
+
+  //map commit etags
+  Object.keys(state.commit).forEach(function (repo) {
+    obj[repo + 'CommitEtag1'] = state.general[repo].etag1;
+    obj[repo + 'CommitEtag7'] = state.general[repo].etag7;
+    obj[repo + 'CommitEtag30'] = state.general[repo].etag30;
+  });
+
+  return obj;
+};
 
 var mapDispatch = {
   fetchStats: _reducerGeneral.fetchStats,

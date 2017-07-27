@@ -20,7 +20,30 @@ class appContainer extends React.Component {
 
   componentDidMount(){
     this.multiGetGeneralStats();
+    //this.multiGetCommitStats();
+
+    setTimeout(
+      this.multiGetGeneralStats,
+      29000
+    );
+    /*
+    this.generalTimer = setInterval(
+      this.multiGetGeneralStats,
+      29000
+    );
+    this.commitTimer = setInterval(
+      this.refreshCommitStats,
+      37000
+    );
+    */
   }
+
+  /*
+  componentWillUnmount(){
+    clearInterval(this.generalTimer);
+    clearInterval(this.commitTimer);
+  }
+  */
 
   // GeneralContainer
   multiGetGeneralStats(){
@@ -32,9 +55,13 @@ class appContainer extends React.Component {
   }
 
   getGeneralStats(name){
+    console.log(
+      'getGeneralStats etag:',
+      this.props[`${name}GeneralEtag`]
+    );
     return this.props.fetchStats(
       name,
-      this.props[`${name}Etag`],
+      this.props[`${name}GeneralEtag`],
     );
   }
   // GeneralContainer - END
@@ -60,20 +87,20 @@ class appContainer extends React.Component {
     return this.props.fetchCommitCount(
       name,
       30,
-      this.props[`${name}Etag30`],
+      this.props[`${name}CommitEtag30`],
     )
     .then(() =>
       this.props.fetchCommitCount(
         name,
         7,
-        this.props[`${name}Etag7`],
+        this.props[`${name}CommitEtag7`],
       )
     )
     .then(() =>
       this.props.fetchCommitCount(
         name,
         1,
-        this.props[`${name}Etag1`],
+        this.props[`${name}CommitEtag1`],
       )
     )
     .catch(error => console.error('getCommitStats:',error));
@@ -83,7 +110,7 @@ class appContainer extends React.Component {
     return this.props.fetchCommitCount(
       name,
       1,
-      this.props[`${name}Etag1`],
+      this.props[`${name}CommitEtag1`],
       true
     )
   }
@@ -101,6 +128,24 @@ class appContainer extends React.Component {
       </div>
     );
   }
+}
+
+const mapState = (state) => {
+  let obj={};
+
+  //map general etags
+  Object.keys(state.general).forEach(repo => {
+    obj[`${repo}GeneralEtag`] = state.general[repo].etag;
+  });
+
+  //map commit etags
+  Object.keys(state.commit).forEach(repo => {
+    obj[`${repo}CommitEtag1`] = state.general[repo].etag1;
+    obj[`${repo}CommitEtag7`] = state.general[repo].etag7;
+    obj[`${repo}CommitEtag30`] = state.general[repo].etag30;
+  });
+
+  return obj;
 }
 
 const mapDispatch = {
