@@ -32500,34 +32500,34 @@ var appContainer = function (_React$Component) {
     _this.multiRefreshCommitStats = _this.multiRefreshCommitStats.bind(_this);
     _this.getCommitStats = _this.getCommitStats.bind(_this);
     _this.refreshCommitStats = _this.refreshCommitStats.bind(_this);
+    //this.refresh = this.refresh.bind(this);
     return _this;
   }
+
+  /*
+  refresh(){
+    //this.getGeneralStats('react');
+    //this.multiGetGeneralStats();
+    //this.refreshCommitStats('react');
+    //this.getCommitStats('react');
+  }
+  */
 
   _createClass(appContainer, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.multiGetGeneralStats();
-      //this.multiGetCommitStats();
+      this.multiGetCommitStats();
 
-      setTimeout(this.multiGetGeneralStats, 29000);
-      /*
-      this.generalTimer = setInterval(
-        this.multiGetGeneralStats,
-        29000
-      );
-      this.commitTimer = setInterval(
-        this.refreshCommitStats,
-        37000
-      );
-      */
+      this.generalTimer = setInterval(this.multiGetGeneralStats, 29000);
+      this.commitTimer = setInterval(this.multiRefreshCommitStats, 37000);
     }
-
-    /*
-    componentWillUnmount(){
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
       clearInterval(this.generalTimer);
       clearInterval(this.commitTimer);
     }
-    */
 
     // GeneralContainer
 
@@ -32549,7 +32549,12 @@ var appContainer = function (_React$Component) {
   }, {
     key: 'getGeneralStats',
     value: function getGeneralStats(name) {
-      console.log('getGeneralStats etag:', this.props[name + 'GeneralEtag']);
+      /*
+      console.log(
+        'getGeneralStats etag:',
+        this.props[`${name}GeneralEtag`]
+      );
+      */
       return this.props.fetchStats(name, this.props[name + 'GeneralEtag']);
     }
     // GeneralContainer - END
@@ -32602,6 +32607,12 @@ var appContainer = function (_React$Component) {
   }, {
     key: 'refreshCommitStats',
     value: function refreshCommitStats(name) {
+      /*
+      console.log(
+        'refreshCommitStats etag:',
+        this.props[`${name}CommitEtag1`]
+      );
+      */
       return this.props.fetchCommitCount(name, 1, this.props[name + 'CommitEtag1'], true);
     }
     // CommitContainer - END
@@ -32609,6 +32620,7 @@ var appContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      console.log('appContainer props:', this.props);
 
       return _react2.default.createElement(
         'div',
@@ -32637,9 +32649,9 @@ var mapState = function mapState(state) {
 
   //map commit etags
   Object.keys(state.commit).forEach(function (repo) {
-    obj[repo + 'CommitEtag1'] = state.general[repo].etag1;
-    obj[repo + 'CommitEtag7'] = state.general[repo].etag7;
-    obj[repo + 'CommitEtag30'] = state.general[repo].etag30;
+    obj[repo + 'CommitEtag1'] = state.commit[repo].etag1;
+    obj[repo + 'CommitEtag7'] = state.commit[repo].etag7;
+    obj[repo + 'CommitEtag30'] = state.commit[repo].etag30;
   });
 
   return obj;
@@ -32650,7 +32662,7 @@ var mapDispatch = {
   fetchCommitCount: _reducerCommit.fetchCommitCount
 };
 
-exports.default = (0, _reactRedux.connect)(null, mapDispatch)(appContainer);
+exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(appContainer);
 
 /***/ }),
 /* 314 */

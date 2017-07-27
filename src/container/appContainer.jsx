@@ -16,34 +16,36 @@ class appContainer extends React.Component {
     this.multiRefreshCommitStats = this.multiRefreshCommitStats.bind(this);
     this.getCommitStats = this.getCommitStats.bind(this);
     this.refreshCommitStats = this.refreshCommitStats.bind(this);
+    //this.refresh = this.refresh.bind(this);
   }
+
+  /*
+  refresh(){
+    //this.getGeneralStats('react');
+    //this.multiGetGeneralStats();
+    //this.refreshCommitStats('react');
+    //this.getCommitStats('react');
+  }
+  */
 
   componentDidMount(){
     this.multiGetGeneralStats();
-    //this.multiGetCommitStats();
+    this.multiGetCommitStats();
 
-    setTimeout(
-      this.multiGetGeneralStats,
-      29000
-    );
-    /*
     this.generalTimer = setInterval(
       this.multiGetGeneralStats,
       29000
     );
     this.commitTimer = setInterval(
-      this.refreshCommitStats,
+      this.multiRefreshCommitStats,
       37000
     );
-    */
   }
 
-  /*
   componentWillUnmount(){
     clearInterval(this.generalTimer);
     clearInterval(this.commitTimer);
   }
-  */
 
   // GeneralContainer
   multiGetGeneralStats(){
@@ -55,10 +57,12 @@ class appContainer extends React.Component {
   }
 
   getGeneralStats(name){
+    /*
     console.log(
       'getGeneralStats etag:',
       this.props[`${name}GeneralEtag`]
     );
+    */
     return this.props.fetchStats(
       name,
       this.props[`${name}GeneralEtag`],
@@ -107,6 +111,12 @@ class appContainer extends React.Component {
   }
 
   refreshCommitStats(name){
+    /*
+    console.log(
+      'refreshCommitStats etag:',
+      this.props[`${name}CommitEtag1`]
+    );
+    */
     return this.props.fetchCommitCount(
       name,
       1,
@@ -117,12 +127,14 @@ class appContainer extends React.Component {
   // CommitContainer - END
 
   render(){
+    console.log('appContainer props:',this.props);
 
     return (
       <div>
         <div className="container">
           <Navbar />
           <div id="offset" />
+          {/*<button onClick={this.refresh}>refresh</button>*/}
           {this.props.children}
         </div>
       </div>
@@ -140,9 +152,9 @@ const mapState = (state) => {
 
   //map commit etags
   Object.keys(state.commit).forEach(repo => {
-    obj[`${repo}CommitEtag1`] = state.general[repo].etag1;
-    obj[`${repo}CommitEtag7`] = state.general[repo].etag7;
-    obj[`${repo}CommitEtag30`] = state.general[repo].etag30;
+    obj[`${repo}CommitEtag1`] = state.commit[repo].etag1;
+    obj[`${repo}CommitEtag7`] = state.commit[repo].etag7;
+    obj[`${repo}CommitEtag30`] = state.commit[repo].etag30;
   });
 
   return obj;
@@ -153,4 +165,4 @@ const mapDispatch = {
   fetchCommitCount,
 }
 
-export default connect(null,mapDispatch)(appContainer);
+export default connect(mapState,mapDispatch)(appContainer);
