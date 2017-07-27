@@ -14446,15 +14446,15 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //VERBS
-var SET_DAY1 = 'SET_DAY1';
-var SET_DAY7 = 'SET_DAY7';
-var SET_DAY30 = 'SET_DAY30';
-var INCREMENT_COUNT = 'INCREMENT_COUNT';
-var SET_UPDATE_TIME = 'SET_UPDATE_TIME';
-var SET_POLL_TIME = 'SET_POLL_TIME';
-var SET_ETAG1 = 'SET_ETAG1';
-var SET_ETAG7 = 'SET_ETAG7';
-var SET_ETAG30 = 'SET_ETAG30';
+var COMMIT_SET_DAY1 = 'COMMIT_SET_DAY1';
+var COMMIT_SET_DAY7 = 'COMMIT_SET_DAY7';
+var COMMIT_SET_DAY30 = 'COMMIT_SET_DAY30';
+var COMMIT_INCREMENT_COUNT = 'COMMIT_INCREMENT_COUNT';
+var COMMIT_SET_UPDATE_TIME = 'COMMIT_SET_UPDATE_TIME';
+var COMMIT_SET_POLL_TIME = 'COMMIT_SET_POLL_TIME';
+var COMMIT_SET_ETAG1 = 'COMMIT_SET_ETAG1';
+var COMMIT_SET_ETAG7 = 'COMMIT_SET_ETAG7';
+var COMMIT_SET_ETAG30 = 'COMMIT_SET_ETAG30';
 //VERBS - END
 
 //CONSTANTS
@@ -14486,23 +14486,23 @@ var commit = function commit() {
   var newState = Object.assign({}, state);
 
   switch (action.type) {
-    case SET_UPDATE_TIME:
+    case COMMIT_SET_UPDATE_TIME:
       newState[action.name].lastUpdate = action.time;
       newState[action.name].lastPoll = action.time;
       break;
-    case SET_POLL_TIME:
+    case COMMIT_SET_POLL_TIME:
       newState[action.name].lastPoll = action.time;
       break;
-    case SET_DAY1:
+    case COMMIT_SET_DAY1:
       newState[action.name].day1 = action.count;
       break;
-    case SET_DAY7:
+    case COMMIT_SET_DAY7:
       newState[action.name].day7 = action.count;
       break;
-    case SET_DAY30:
+    case COMMIT_SET_DAY30:
       newState[action.name].day30 = action.count;
       break;
-    case INCREMENT_COUNT:
+    case COMMIT_INCREMENT_COUNT:
       //calculate delta
       var delta = action.count - state[action.name].day1;
       //set new counts
@@ -14510,13 +14510,13 @@ var commit = function commit() {
       newState[action.name].day7 += delta;
       newState[action.name].day30 += delta;
       break;
-    case SET_ETAG1:
+    case COMMIT_SET_ETAG1:
       newState[action.name].etag1 = action.etag;
       break;
-    case SET_ETAG7:
+    case COMMIT_SET_ETAG7:
       newState[action.name].etag7 = action.etag;
       break;
-    case SET_ETAG30:
+    case COMMIT_SET_ETAG30:
       newState[action.name].etag30 = action.etag;
       break;
     default:
@@ -14531,7 +14531,7 @@ exports.default = commit;
 
 var actionSetUpdateTime = function actionSetUpdateTime(name, time) {
   return {
-    type: SET_UPDATE_TIME,
+    type: COMMIT_SET_UPDATE_TIME,
     name: name,
     time: time
   };
@@ -14539,7 +14539,7 @@ var actionSetUpdateTime = function actionSetUpdateTime(name, time) {
 
 var actionSetPollTime = function actionSetPollTime(name, time) {
   return {
-    type: SET_POLL_TIME,
+    type: COMMIT_SET_POLL_TIME,
     name: name,
     time: time
   };
@@ -14552,13 +14552,13 @@ var actionSetCount = function actionSetCount(name, day, count) {
   };
   switch (day) {
     case 1:
-      obj.type = SET_DAY1;
+      obj.type = COMMIT_SET_DAY1;
       break;
     case 7:
-      obj.type = SET_DAY7;
+      obj.type = COMMIT_SET_DAY7;
       break;
     case 30:
-      obj.type = SET_DAY30;
+      obj.type = COMMIT_SET_DAY30;
       break;
     default:
       throw 'actionSetCommit: unknown day encountered';
@@ -14573,13 +14573,13 @@ var actionSetEtag = function actionSetEtag(name, day, etag) {
   };
   switch (day) {
     case 1:
-      obj.type = SET_ETAG1;
+      obj.type = COMMIT_SET_ETAG1;
       break;
     case 7:
-      obj.type = SET_ETAG7;
+      obj.type = COMMIT_SET_ETAG7;
       break;
     case 30:
-      obj.type = SET_ETAG30;
+      obj.type = COMMIT_SET_ETAG30;
       break;
     default:
       throw 'actionSetEtag: unknown day encountered';
@@ -14589,7 +14589,7 @@ var actionSetEtag = function actionSetEtag(name, day, etag) {
 
 var actionIncrementCount = function actionIncrementCount(name, count) {
   return {
-    type: INCREMENT_COUNT,
+    type: COMMIT_INCREMENT_COUNT,
     name: name,
     count: count
   };
@@ -15010,10 +15010,10 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //VERBS
-var SET_STATS = 'SET_STATS';
-var SET_UPDATE_TIME = 'SET_UPDATE_TIME';
-var SET_POLL_TIME = 'SET_POLL_TIME';
-var SET_ETAG = 'SET_ETAG';
+var GENERAL_SET_STATS = 'GENERAL_SET_STATS';
+var GENERAL_SET_UPDATE_TIME = 'GENERAL_SET_UPDATE_TIME';
+var GENERAL_SET_POLL_TIME = 'GENERAL_SET_POLL_TIME';
+var GENERAL_SET_ETAG = 'GENERAL_SET_ETAG';
 //VERBS - END
 
 //CONSTANTS
@@ -15044,20 +15044,20 @@ var general = function general() {
   var newState = Object.assign({}, state);
 
   switch (action.type) {
-    case SET_UPDATE_TIME:
+    case GENERAL_SET_UPDATE_TIME:
       newState[action.name].lastUpdate = action.time;
       newState[action.name].lastPoll = action.time;
       break;
-    case SET_POLL_TIME:
+    case GENERAL_SET_POLL_TIME:
       newState[action.name].lastPoll = action.time;
       break;
-    case SET_STATS:
+    case GENERAL_SET_STATS:
       newState[action.name].stars = action.stars;
       newState[action.name].watchers = action.watchers;
       newState[action.name].forks = action.forks;
       newState[action.name].issues = action.issues;
       break;
-    case SET_ETAG:
+    case GENERAL_SET_ETAG:
       newState[action.name].etag = action.etag;
       break;
     default:
@@ -15072,7 +15072,7 @@ exports.default = general;
 
 var actionSetUpdateTime = function actionSetUpdateTime(name, time) {
   return {
-    type: SET_UPDATE_TIME,
+    type: GENERAL_SET_UPDATE_TIME,
     name: name,
     time: time
   };
@@ -15080,7 +15080,7 @@ var actionSetUpdateTime = function actionSetUpdateTime(name, time) {
 
 var actionSetPollTime = function actionSetPollTime(name, time) {
   return {
-    type: SET_POLL_TIME,
+    type: GENERAL_SET_POLL_TIME,
     name: name,
     time: time
   };
@@ -15088,7 +15088,7 @@ var actionSetPollTime = function actionSetPollTime(name, time) {
 
 var actionSetStats = function actionSetStats(name, stars, watchers, forks, issues) {
   return {
-    type: SET_STATS,
+    type: GENERAL_SET_STATS,
     name: name,
     stars: stars,
     watchers: watchers,
@@ -15099,7 +15099,7 @@ var actionSetStats = function actionSetStats(name, stars, watchers, forks, issue
 
 var actionSetEtag = function actionSetEtag(name, etag) {
   return {
-    type: SET_ETAG,
+    type: GENERAL_SET_ETAG,
     name: name,
     etag: etag
   };

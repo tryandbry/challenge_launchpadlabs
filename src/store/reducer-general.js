@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 //VERBS
-const SET_STATS = 'SET_STATS';
-const SET_UPDATE_TIME = 'SET_UPDATE_TIME';
-const SET_POLL_TIME = 'SET_POLL_TIME';
-const SET_ETAG = 'SET_ETAG';
+const GENERAL_SET_STATS = 'GENERAL_SET_STATS';
+const GENERAL_SET_UPDATE_TIME = 'GENERAL_SET_UPDATE_TIME';
+const GENERAL_SET_POLL_TIME = 'GENERAL_SET_POLL_TIME';
+const GENERAL_SET_ETAG = 'GENERAL_SET_ETAG';
 //VERBS - END
 
 //CONSTANTS
@@ -32,20 +32,20 @@ const general = (state=INIT,action) => {
   let newState = Object.assign({},state);
 
   switch(action.type) {
-    case SET_UPDATE_TIME:
+    case GENERAL_SET_UPDATE_TIME:
       newState[action.name].lastUpdate = action.time;
       newState[action.name].lastPoll = action.time;
       break; 
-    case SET_POLL_TIME:
+    case GENERAL_SET_POLL_TIME:
       newState[action.name].lastPoll = action.time;
       break; 
-    case SET_STATS:
+    case GENERAL_SET_STATS:
       newState[action.name].stars = action.stars;
       newState[action.name].watchers = action.watchers;
       newState[action.name].forks = action.forks;
       newState[action.name].issues = action.issues;
       break;
-    case SET_ETAG:
+    case GENERAL_SET_ETAG:
       newState[action.name].etag = action.etag;
       break;
     default:
@@ -58,19 +58,19 @@ export default general;
 
 //ACTION CREATORS
 const actionSetUpdateTime = (name,time) => ({
-  type: SET_UPDATE_TIME,
+  type: GENERAL_SET_UPDATE_TIME,
   name,
   time,
 })
 
 const actionSetPollTime = (name,time) => ({
-  type: SET_POLL_TIME,
+  type: GENERAL_SET_POLL_TIME,
   name,
   time
 })
 
 const actionSetStats = (name,stars,watchers,forks,issues) => ({
-  type: SET_STATS,
+  type: GENERAL_SET_STATS,
   name,
   stars,
   watchers,
@@ -79,7 +79,7 @@ const actionSetStats = (name,stars,watchers,forks,issues) => ({
 })
 
 const actionSetEtag = (name,etag) => ({
-  type: SET_ETAG,
+  type: GENERAL_SET_ETAG,
   name,
   etag,
 })
